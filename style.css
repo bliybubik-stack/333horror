@@ -4,131 +4,38 @@
     padding: 0;
 }
 
+:root {
+    --bg: #080808;
+    --panel: #101010;
+    --panel2: #151515;
+    --border: #292929;
+    --text: #d8d8d8;
+    --muted: #777;
+    --dim: #444;
+}
+
 html,
 body {
     width: 100%;
     height: 100%;
-    overflow: hidden;
 }
 
 body {
-    background: #050505;
-    color: #ddd;
-    font-family: Arial, sans-serif;
-}
-
-
-/* ROOM */
-
-#game {
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-#room {
-    position: absolute;
-    inset: 0;
-    background: #090909;
     overflow: hidden;
+
+    background: var(--bg);
+
+    color: var(--text);
+
+    font-family:
+        Inter,
+        Arial,
+        Helvetica,
+        sans-serif;
 }
 
-#door {
-    position: absolute;
-
-    width: min(520px, 75vw);
-    height: 85%;
-
-    object-fit: contain;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    filter: brightness(.65);
-}
-
-
-/* BELL */
-
-#bellButton {
-    position: absolute;
-
-    right: 8%;
-    top: 50%;
-
-    width: 90px;
-    height: 90px;
-
-    background: transparent;
-
-    border: none;
-
-    cursor: pointer;
-}
-
-#bellButton img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: contain;
-
-    transition: .15s;
-}
-
-#bellButton:hover img {
-    transform: scale(1.1);
-}
-
-#bellButton:active img {
-    transform: scale(.9);
-}
-
-
-/* ROOM TEXT */
-
-#roomText {
-    position: absolute;
-
-    bottom: 30px;
-    left: 50%;
-
-    transform: translateX(-50%);
-
-    padding: 10px 18px;
-
-    background: rgba(0,0,0,.7);
-
-    color: #777;
-
-    font-family: monospace;
-
-    font-size: 13px;
-}
-
-
-/* VISITOR */
-
-#visitorPanel {
-    position: absolute;
-
-    z-index: 10;
-
-    left: 50%;
-    top: 50%;
-
-    transform: translate(-50%, -50%);
-
-    width: min(650px, 94vw);
-
-    padding: 18px;
-
-    background: #080808;
-
-    border: 1px solid #292929;
-
-    box-shadow: 0 30px 100px #000;
+button {
+    font: inherit;
 }
 
 .hidden {
@@ -136,9 +43,233 @@ body {
 }
 
 
-/* TOPBAR */
+/* =========================================
+   GAME
+========================================= */
+
+.game {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    background: #050505;
+}
+
+
+/* =========================================
+   TOPBAR
+========================================= */
 
 .topbar {
+    position: absolute;
+
+    z-index: 10;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 62px;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding: 0 28px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            rgba(5,5,5,.98),
+            rgba(5,5,5,.72)
+        );
+
+    border-bottom: 1px solid rgba(255,255,255,.05);
+}
+
+.logo {
+    font-size: 13px;
+
+    font-weight: 700;
+
+    letter-spacing: 4px;
+}
+
+.night {
+    color: var(--muted);
+
+    font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================================
+   ROOM
+========================================= */
+
+.room {
+    position: absolute;
+
+    inset: 0;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    overflow: hidden;
+
+    background: #080808;
+}
+
+.door {
+    width: min(580px, 75vw);
+    height: 85vh;
+
+    object-fit: contain;
+
+    filter:
+        brightness(.65)
+        contrast(1.1);
+
+    user-select: none;
+}
+
+.room-darkness {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 2;
+
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 15%,
+            rgba(0,0,0,.45) 65%,
+            rgba(0,0,0,.88) 100%
+        );
+}
+
+
+/* =========================================
+   BELL
+========================================= */
+
+.bell-button {
+    position: absolute;
+
+    z-index: 5;
+
+    left: calc(50% + min(255px, 34vw));
+
+    top: 50%;
+
+    width: 72px;
+    height: 72px;
+
+    border: 1px solid #333;
+
+    border-radius: 50%;
+
+    background: #0d0d0d;
+
+    cursor: pointer;
+
+    transition:
+        transform .15s,
+        background .15s;
+}
+
+.bell-button:hover {
+    background: #171717;
+
+    transform: scale(1.05);
+}
+
+.bell-button:active {
+    transform: scale(.94);
+}
+
+.bell-button img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    padding: 12px;
+}
+
+
+/* =========================================
+   STATUS
+========================================= */
+
+.status {
+    position: absolute;
+
+    z-index: 5;
+
+    bottom: 30px;
+
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 10px 18px;
+
+    background: rgba(5,5,5,.82);
+
+    border: 1px solid #222;
+
+    color: #888;
+
+    font-family: monospace;
+
+    font-size: 12px;
+
+    white-space: nowrap;
+}
+
+
+/* =========================================
+   EVENT PANEL
+========================================= */
+
+.event-panel {
+    position: absolute;
+
+    z-index: 50;
+
+    left: 50%;
+
+    bottom: 30px;
+
+    transform: translateX(-50%);
+
+    width: min(520px, calc(100vw - 30px));
+
+    padding: 18px;
+
+    background:
+        rgba(12,12,12,.96);
+
+    border: 1px solid #303030;
+
+    box-shadow:
+        0 20px 70px rgba(0,0,0,.65);
+}
+
+.event-top {
     display: flex;
 
     justify-content: space-between;
@@ -147,52 +278,167 @@ body {
 
     border-bottom: 1px solid #222;
 
+    color: #555;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+.event-time {
+    font-family: monospace;
+}
+
+.event-content {
+    display: flex;
+
+    gap: 15px;
+
+    padding: 20px 0;
+}
+
+.event-icon {
+    width: 36px;
+    height: 36px;
+
+    flex-shrink: 0;
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid #444;
+
+    color: #aaa;
+
+    font-weight: bold;
+}
+
+.event-content h2 {
+    font-size: 17px;
+
+    margin-bottom: 5px;
+}
+
+.event-content p {
     color: #666;
 
-    font-size: 11px;
+    font-size: 12px;
+}
 
-    letter-spacing: 3px;
+.event-actions {
+    display: flex;
+
+    gap: 8px;
 }
 
 
-/* PEEPHOLE */
+/* =========================================
+   INSPECT
+========================================= */
 
-#peephole {
+.inspect {
+    position: absolute;
+
+    z-index: 100;
+
+    inset: 0;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    padding: 75px 20px 30px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            #151515,
+            #050505 80%
+        );
+}
+
+.inspect-header {
+    width: min(720px, 100%);
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #666;
+
+    font-size: 10px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.close {
+    width: 30px;
+    height: 30px;
+
+    border: 1px solid #292929;
+
+    background: #0d0d0d;
+
+    color: #666;
+
+    cursor: pointer;
+
+    font-size: 20px;
+}
+
+.close:hover {
+    color: white;
+}
+
+
+/* =========================================
+   PEEPHOLE
+========================================= */
+
+.peephole {
     position: relative;
 
-    width: min(390px, 70vw);
-    height: min(390px, 70vw);
-
-    margin: 20px auto;
+    width: min(400px, 68vw);
+    height: min(400px, 68vw);
 
     overflow: hidden;
 
     border-radius: 50%;
 
-    border: 12px solid #030303;
-
     background: #111;
 
+    border: 12px solid #080808;
+
     box-shadow:
-        0 0 0 2px #333,
-        inset 0 0 80px #000;
+        0 0 0 1px #444,
+        inset 0 0 80px #000,
+        0 20px 80px #000;
 }
 
-#igorImage {
+.peephole img {
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
     filter:
-        brightness(.65)
-        contrast(1.3)
-        saturate(.6);
+        brightness(.7)
+        contrast(1.15);
 
-    transform: scale(1.05);
+    transform: scale(1.08);
 }
 
-.darkness {
+.peephole-shadow {
     position: absolute;
 
     inset: 0;
@@ -200,17 +446,17 @@ body {
     pointer-events: none;
 
     box-shadow:
-        inset 0 0 100px 35px #000;
+        inset 0 0 100px 35px rgba(0,0,0,.9);
 }
 
-.grain {
+.noise {
     position: absolute;
 
     inset: 0;
 
     pointer-events: none;
 
-    opacity: .15;
+    opacity: .1;
 
     background:
         repeating-linear-gradient(
@@ -222,148 +468,266 @@ body {
 }
 
 
-/* INFO */
+/* =========================================
+   IGOR INFO
+========================================= */
 
-#visitorInfo {
-    text-align: center;
+.igor-info {
+    width: min(650px, 100%);
+
+    margin-top: 15px;
 }
 
-#igorName {
-    font-size: 22px;
+.igor-name-row {
+    display: flex;
 
-    letter-spacing: 4px;
+    align-items: center;
+
+    gap: 10px;
 }
 
-#igorType {
-    margin-top: 6px;
-
-    color: #555;
-
-    font-size: 10px;
+.igor-name-row h2 {
+    font-size: 20px;
 
     letter-spacing: 2px;
 }
 
-#igorDescription {
-    margin-top: 12px;
+.tag {
+    padding: 4px 8px;
 
-    color: #888;
-
-    font-size: 13px;
-}
-
-
-/* INSPECTION */
-
-#inspectText {
-    min-height: 30px;
-
-    margin-top: 15px;
-
-    text-align: center;
+    border: 1px solid #303030;
 
     color: #666;
 
-    font-family: monospace;
+    font-size: 8px;
+
+    letter-spacing: 1px;
+}
+
+#igorDescription {
+    color: #777;
 
     font-size: 12px;
+
+    margin-top: 7px;
+}
+
+.inspection {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 8px;
+
+    margin-top: 13px;
+}
+
+.inspection > div {
+    padding: 9px;
+
+    background: #0d0d0d;
+
+    border: 1px solid #202020;
+}
+
+.inspection small {
+    display: block;
+
+    color: #444;
+
+    font-size: 7px;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+}
+
+.inspection strong {
+    font-size: 10px;
+
+    color: #aaa;
+}
+
+.lore {
+    margin-top: 10px;
+
+    color: #444;
+
+    font-size: 10px;
+
+    font-style: italic;
 }
 
 
-/* BUTTONS */
+/* =========================================
+   ACTIONS
+========================================= */
 
-.buttons {
+.inspect-actions {
+    width: min(650px, 100%);
+
     display: flex;
 
     gap: 8px;
 
-    margin-top: 12px;
+    margin-top: 15px;
 }
 
-.buttons button {
+.action {
     flex: 1;
 
-    height: 48px;
+    min-height: 48px;
 
-    background: #101010;
+    border: 1px solid #303030;
 
-    border: 1px solid #292929;
+    background: #111;
 
     color: #aaa;
 
     cursor: pointer;
 
-    font-weight: bold;
+    font-size: 10px;
+
+    font-weight: 700;
+
+    letter-spacing: 1px;
 
     transition: .15s;
 }
 
-.buttons button:hover {
-    background: #191919;
+.action:hover {
+    background: #1a1a1a;
 
-    color: #fff;
+    color: white;
+
+    border-color: #444;
 }
 
-#openButton:hover {
-    background: #142014;
+.action.open:hover {
+    background: #152015;
 }
 
-#leaveButton:hover {
-    background: #251111;
+.action.reject:hover {
+    background: #241212;
 }
 
 
-/* MESSAGE */
+/* =========================================
+   MESSAGE
+========================================= */
 
-#message {
+.message {
     position: absolute;
 
-    z-index: 100;
+    z-index: 200;
 
     inset: 0;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
-    background: rgba(0,0,0,.92);
+    background: rgba(0,0,0,.78);
 }
 
-#messageText {
-    text-align: center;
+.message-box {
+    width: min(430px, calc(100vw - 30px));
 
-    max-width: 500px;
+    padding: 28px;
 
-    padding: 30px;
+    background: #0c0c0c;
 
-    color: #aaa;
+    border: 1px solid #303030;
 
-    font-family: monospace;
+    box-shadow:
+        0 30px 100px #000;
+}
 
-    font-size: 16px;
+.message-title {
+    font-size: 17px;
 
-    line-height: 2;
+    font-weight: bold;
+
+    letter-spacing: 2px;
+}
+
+.message-text {
+    margin-top: 12px;
+
+    color: #777;
+
+    font-size: 12px;
+
+    line-height: 1.7;
+
+    white-space: pre-line;
+}
+
+.message-box .action {
+    width: 100%;
+
+    margin-top: 22px;
 }
 
 
-/* MOBILE */
+/* =========================================
+   MOBILE
+========================================= */
 
-@media(max-width:600px) {
+@media (max-width: 650px) {
 
-    #bellButton {
-        width: 65px;
-        height: 65px;
-        right: 3%;
+    .topbar {
+        padding: 0 15px;
     }
 
-    #visitorPanel {
-        padding: 12px;
-    }
-
-    .buttons button {
+    .logo {
         font-size: 10px;
+
+        letter-spacing: 2px;
+    }
+
+    .door {
+        width: 95vw;
+    }
+
+    .bell-button {
+        left: auto;
+
+        right: 12%;
+
+        top: 50%;
+
+        width: 58px;
+        height: 58px;
+    }
+
+    .status {
+        bottom: 20px;
+
+        font-size: 10px;
+    }
+
+    .event-panel {
+        bottom: 15px;
+    }
+
+    .peephole {
+        width: 65vw;
+        height: 65vw;
+    }
+
+    .inspect {
+        overflow-y: auto;
+
+        justify-content: flex-start;
+
+        padding-top: 75px;
+    }
+
+    .inspection {
+        grid-template-columns: 1fr 1fr 1fr;
     }
 
 }
