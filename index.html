@@ -1,558 +1,105 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <title>ОТКРОЙ ДВЕРЬ</title>
-
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ИГОРЬ</title>
+    <link rel="stylesheet" href="style.css">
 </head>
-
 
 <body>
 
 <div id="game">
 
+    <!-- ROOM -->
 
-    <!-- =========================
-         ГЛАВНОЕ МЕНЮ
-    ========================== -->
+    <div id="room">
 
-    <section
-        id="menu"
-        class="screen"
-    >
+        <img id="door" src="assets/door.png">
 
-        <div class="menu-box">
+        <button id="bellButton">
+            <img src="assets/bell.png">
+        </button>
 
-            <div class="small-title">
-                КВАРТИРА 37
-            </div>
-
-            <h1>
-                ОТКРОЙ<br>
-                ДВЕРЬ
-            </h1>
-
-            <p class="menu-lore">
-                Ночь. 23:41.<br>
-                Кто-то снова звонит.
-            </p>
-
-
-            <button
-                id="newGameButton"
-                class="menu-button"
-            >
-                НОВАЯ ИГРА
-            </button>
-
-
-            <button
-                id="difficultyButton"
-                class="menu-button"
-            >
-                СЛОЖНОСТЬ
-            </button>
-
-
-            <button
-                id="loreButton"
-                class="menu-button"
-            >
-                ЛОР
-            </button>
-
-
-            <div
-                id="menuVersion"
-                class="version"
-            >
-                v1.0 — тут всё нормально
-            </div>
-
+        <div id="roomText">
+            Тишина...
         </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         СЛОЖНОСТЬ
-    ========================== -->
-
-    <section
-        id="difficultyScreen"
-        class="screen hidden"
-    >
-
-        <div class="difficulty-box">
-
-            <h2>
-                СЛОЖНОСТЬ
-            </h2>
-
-            <p class="subtext">
-                20 посетителей в каждой сложности.
-            </p>
-
-
-            <button
-                class="difficulty"
-                data-difficulty="easy"
-            >
-
-                <b>ЛЕГКО</b>
-
-                <span>
-                    Почти все нормальные.
-                </span>
-
-            </button>
-
-
-            <button
-                class="difficulty"
-                data-difficulty="normal"
-            >
-
-                <b>НОРМАЛЬНО</b>
-
-                <span>
-                    Уже есть проблемы.
-                </span>
-
-            </button>
-
-
-            <button
-                class="difficulty"
-                data-difficulty="hard"
-            >
-
-                <b>СЛОЖНО</b>
-
-                <span>
-                    Они начинают понимать.
-                </span>
-
-            </button>
-
-
-            <button
-                class="difficulty"
-                data-difficulty="nightmare"
-            >
-
-                <b>КОШМАР</b>
-
-                <span>
-                    Они знают, что ты дома.
-                </span>
-
-            </button>
-
-
-            <button
-                id="backFromDifficulty"
-                class="back-button"
-            >
-                НАЗАД
-            </button>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         ЛОР
-    ========================== -->
-
-    <section
-        id="loreScreen"
-        class="screen hidden"
-    >
-
-        <div class="lore-box">
-
-            <h2>
-                ЧТО ЗДЕСЬ ПРОИСХОДИТ
-            </h2>
-
-            <div class="lore-text">
-
-                <p>
-                    Дом №17 построили в 1987 году.
-                </p>
-
-                <p>
-                    В квартире 37 никто официально
-                    не живёт уже 11 лет.
-                </p>
-
-                <p>
-                    Но каждую ночь в 23:41
-                    кто-то звонит в дверь.
-                </p>
-
-                <p>
-                    Первый человек, который открыл
-                    дверь, был Игорь.
-                </p>
-
-                <p>
-                    Через неделю появился другой Игорь.
-                </p>
-
-                <p>
-                    Потом ещё один.
-                </p>
-
-                <p>
-                    Соседи говорят, что их было
-                    двадцать.
-                </p>
-
-                <p>
-                    Никто не знает, почему у всех
-                    одно имя.
-                </p>
-
-                <p>
-                    Самое странное:
-                    некоторые из них знают вещи,
-                    которые мог знать только
-                    настоящий хозяин квартиры.
-                </p>
-
-                <p>
-                    Поэтому правило простое:
-                </p>
-
-                <strong>
-                    СМОТРИ В ГЛАЗОК.
-                    НЕ СПЕШИ ОТКРЫВАТЬ.
-                </strong>
-
-            </div>
-
-
-            <button
-                id="backFromLore"
-                class="back-button"
-            >
-                НАЗАД
-            </button>
-
-        </div>
-
-    </section>
-
-
-
-    <!-- =========================
-         GAME
-    ========================== -->
-
-    <section
-        id="gameScreen"
-        class="hidden"
-    >
-
-        <div class="hud">
-
-            <span>
-                КВАРТИРА 37
-            </span>
-
-            <span id="gameTime">
-                23:41
-            </span>
-
-            <span>
-                <span id="difficultyName">
-                    ЛЕГКО
-                </span>
-            </span>
-
-        </div>
-
-
-        <main>
-
-            <div class="room">
-
-                <img
-                    src="assets/room/room.png"
-                    class="room-image"
-                    alt=""
-                >
-
-                <img
-                    src="assets/room/door.png"
-                    class="door-image"
-                    alt=""
-                >
-
-
-                <button
-                    id="doorbell"
-                    class="doorbell"
-                >
-
-                    <img
-                        src="assets/room/doorbell.png"
-                        alt="Звонок"
-                    >
-
-                </button>
-
-
-                <div
-                    id="doorMessage"
-                    class="door-message"
-                >
-                    Тишина.
-                </div>
-
-            </div>
-
-
-
-            <!-- ПОСЕТИТЕЛЬ -->
-
-            <div
-                id="visitorScreen"
-                class="visitor-screen hidden"
-            >
-
-                <div class="visitor-header">
-
-                    <span>
-                        КТО-ТО У ДВЕРИ
-                    </span>
-
-                    <span id="visitorNumber">
-                        01 / 20
-                    </span>
-
-                </div>
-
-
-                <div class="peephole">
-
-                    <img
-                        id="visitorImage"
-                        src=""
-                        alt=""
-                    >
-
-                    <div class="peephole-dark"></div>
-
-                    <div class="scanlines"></div>
-
-                </div>
-
-
-                <div class="visitor-info">
-
-                    <h2 id="visitorName">
-                        ИГОРЬ
-                    </h2>
-
-                    <div id="visitorAge">
-                        Возраст: ?
-                    </div>
-
-                    <div
-                        id="visitorType"
-                        class="type"
-                    >
-                        ?
-                    </div>
-
-                    <p id="visitorDescription">
-                        ...
-                    </p>
-
-                    <p
-                        id="visitorLore"
-                        class="visitor-lore"
-                    >
-                        ...
-                    </p>
-
-                </div>
-
-
-                <div class="timer">
-
-                    У двери:
-
-                    <span id="visitorTimer">
-                        00:00
-                    </span>
-
-                </div>
-
-
-                <div class="actions">
-
-                    <button
-                        id="openButton"
-                        class="open"
-                    >
-                        ВПУСТИТЬ
-                    </button>
-
-                    <button
-                        id="rejectButton"
-                        class="reject"
-                    >
-                        ПОШЁЛ НАХУЙ
-                    </button>
-
-                </div>
-
-            </div>
-
-        </main>
-
-
-        <footer>
-
-            <span id="status">
-                Сижу. Жду.
-            </span>
-
-            <span>
-                Впущено:
-                <b id="letIn">0</b>
-
-                &nbsp;|&nbsp;
-
-                Послано:
-                <b id="rejected">0</b>
-            </span>
-
-        </footer>
-
-    </section>
-
-
-
-    <!-- =========================
-         BLACK SCREEN
-    ========================== -->
-
-    <div
-        id="blackScreen"
-        class="black-screen hidden"
-    >
-
-        <div id="blackText"></div>
 
     </div>
 
 
+    <!-- VISITOR -->
 
-    <!-- =========================
-         JUMPSCARE
-    ========================== -->
+    <div id="visitorPanel" class="hidden">
 
-    <div
-        id="jumpscare"
-        class="jumpscare hidden"
-    >
-
-        <img
-            id="jumpscareImage"
-            src=""
-            alt=""
-        >
-
-    </div>
+        <div class="topbar">
+            <span>ДВЕРЬ</span>
+            <span id="igorCounter">0 / 30</span>
+        </div>
 
 
+        <div id="peephole">
 
-    <!-- =========================
-         ENDING
-    ========================== -->
+            <img id="igorImage">
 
-    <section
-        id="ending"
-        class="screen hidden"
-    >
+            <div class="darkness"></div>
 
-        <div class="ending-box">
+            <div class="grain"></div>
 
-            <div id="endingNumber">
-                КОНЦОВКА 1 / 4
-            </div>
+        </div>
 
-            <h1 id="endingTitle">
-                ...
+
+        <div id="visitorInfo">
+
+            <h1 id="igorName">
+                ИГОРЬ
             </h1>
 
-            <p id="endingText">
+            <p id="igorType">
                 ...
             </p>
 
-            <button
-                id="restartButton"
-                class="menu-button"
-            >
-                В МЕНЮ
+            <p id="igorDescription">
+                ...
+            </p>
+
+        </div>
+
+
+        <div id="inspectText">
+            Посмотри внимательнее.
+        </div>
+
+
+        <div class="buttons">
+
+            <button id="inspectButton">
+                ОСМОТРЕТЬ
+            </button>
+
+            <button id="openButton">
+                ОТКРЫТЬ
+            </button>
+
+            <button id="leaveButton">
+                ПОШЁЛ НАХУЙ
             </button>
 
         </div>
 
-    </section>
+    </div>
 
 
+    <!-- MESSAGE -->
 
-    <!-- AUDIO -->
+    <div id="message" class="hidden">
 
-    <audio
-        id="doorbellSound"
-        src="assets/audio/doorbell.mp3"
-    ></audio>
+        <div id="messageText"></div>
 
-    <audio
-        id="knockSound"
-        src="assets/audio/knock.mp3"
-    ></audio>
+    </div>
 
-    <audio
-        id="breathingSound"
-        src="assets/audio/breathing.mp3"
-    ></audio>
-
-    <audio
-        id="whisperSound"
-        src="assets/audio/whisper.mp3"
-    ></audio>
-
-    <audio
-        id="jumpscareSound"
-        src="assets/audio/jumpscare.mp3"
-    ></audio>
 
 </div>
-
 
 <script src="app.js"></script>
 
