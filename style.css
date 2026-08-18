@@ -1,0 +1,855 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #050505;
+    color: #d8d8d8;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    user-select: none;
+}
+
+button {
+    font-family: inherit;
+}
+
+
+/* =========================
+   GAME
+========================= */
+
+#game {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    background: #080808;
+}
+
+
+/* =========================
+   TOP BAR
+========================= */
+
+.topbar {
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 24px;
+
+    background: #0c0c0c;
+
+    border-bottom: 1px solid #252525;
+
+    font-size: 13px;
+
+    letter-spacing: 2px;
+}
+
+.game-title {
+    font-weight: 900;
+}
+
+.night {
+    color: #777;
+}
+
+.clock {
+    font-family: monospace;
+    font-size: 16px;
+}
+
+
+/* =========================
+   SCENE
+========================= */
+
+.scene {
+    width: 100%;
+    height: calc(100vh - 108px);
+
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* =========================
+   ROOM
+========================= */
+
+.room {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #101010 0%,
+            #151515 48%,
+            #0b0b0b 100%
+        );
+}
+
+
+/* floor */
+
+.room::after {
+    content: "";
+
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 20%;
+
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #0c0c0c 0px,
+            #0c0c0c 80px,
+            #111 81px,
+            #111 82px
+        );
+
+    border-top: 2px solid #090909;
+}
+
+
+/* =========================
+   DOOR
+========================= */
+
+.door {
+    position: absolute;
+
+    width: min(430px, 55vw);
+    height: min(650px, 72vh);
+
+    left: 50%;
+    top: 52%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        linear-gradient(
+            90deg,
+            #161616,
+            #202020,
+            #141414
+        );
+
+    border: 8px solid #090909;
+
+    box-shadow:
+        0 0 0 2px #292929,
+        0 20px 60px #000;
+
+    z-index: 2;
+}
+
+
+/* door panels */
+
+.door::before,
+.door::after {
+    content: "";
+
+    position: absolute;
+
+    left: 35px;
+    right: 35px;
+
+    border: 2px solid #101010;
+}
+
+.door::before {
+    top: 80px;
+    height: 190px;
+}
+
+.door::after {
+    bottom: 80px;
+    height: 180px;
+}
+
+
+/* apartment number */
+
+.door-text {
+    position: absolute;
+
+    top: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    font-size: 12px;
+
+    color: #555;
+
+    letter-spacing: 4px;
+}
+
+
+/* peephole */
+
+.peephole {
+    position: absolute;
+
+    width: 32px;
+    height: 32px;
+
+    border-radius: 50%;
+
+    left: 50%;
+    top: 47%;
+
+    transform: translate(-50%, -50%);
+
+    background:
+        radial-gradient(
+            circle,
+            #222 0%,
+            #080808 45%,
+            #000 70%
+        );
+
+    border: 4px solid #333;
+
+    box-shadow:
+        0 0 10px #000;
+}
+
+
+/* handle */
+
+.door-handle {
+    position: absolute;
+
+    right: 34px;
+    top: 55%;
+
+    width: 45px;
+    height: 9px;
+
+    border-radius: 10px;
+
+    background: #3a3a3a;
+
+    box-shadow:
+        0 3px 0 #090909;
+}
+
+
+/* =========================
+   BELL
+========================= */
+
+.bell-button {
+    position: absolute;
+
+    right: 12%;
+    top: 52%;
+
+    width: 100px;
+    height: 100px;
+
+    border-radius: 8px;
+
+    background: #111;
+
+    color: #777;
+
+    border: 2px solid #252525;
+
+    cursor: pointer;
+
+    z-index: 5;
+}
+
+.bell-button:hover {
+    color: white;
+    border-color: #555;
+}
+
+.bell-button:active {
+    transform: scale(.96);
+}
+
+
+/* =========================
+   MESSAGE
+========================= */
+
+.doorbell-message {
+    position: absolute;
+
+    left: 50%;
+    bottom: 30px;
+
+    transform: translateX(-50%);
+
+    color: #777;
+
+    font-family: monospace;
+
+    z-index: 5;
+}
+
+
+/* =========================
+   VISITOR PANEL
+========================= */
+
+.visitor-panel {
+    position: absolute;
+
+    width: min(620px, 92vw);
+
+    max-height: 90%;
+
+    padding: 18px;
+
+    background: rgba(8, 8, 8, .97);
+
+    border: 1px solid #303030;
+
+    box-shadow:
+        0 20px 80px #000;
+
+    z-index: 30;
+
+    animation: panelIn .2s ease;
+}
+
+@keyframes panelIn {
+    from {
+        transform: scale(.96);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* header */
+
+.panel-header {
+    display: flex;
+    justify-content: space-between;
+
+    padding-bottom: 12px;
+    margin-bottom: 15px;
+
+    border-bottom: 1px solid #222;
+
+    font-size: 12px;
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   PEEPHOLE
+========================= */
+
+.peephole-view {
+    display: flex;
+    justify-content: center;
+}
+
+.peephole-ring {
+    width: min(390px, 70vw);
+    height: min(390px, 70vw);
+
+    padding: 12px;
+
+    border-radius: 50%;
+
+    background: #050505;
+
+    box-shadow:
+        inset 0 0 30px #000,
+        0 0 0 2px #333;
+}
+
+.peephole-glass {
+    position: relative;
+
+    width: 100%;
+    height: 100%;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    background: #151515;
+}
+
+
+/* visitor */
+
+#visitorImage {
+    position: absolute;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    filter:
+        contrast(1.15)
+        brightness(.72)
+        saturate(.6);
+
+    transform: scale(1.15);
+
+    z-index: 2;
+}
+
+
+/* vignette */
+
+.fisheye-vignette {
+    position: absolute;
+
+    inset: 0;
+
+    border-radius: 50%;
+
+    box-shadow:
+        inset 0 0 80px 35px #000;
+
+    z-index: 5;
+
+    pointer-events: none;
+}
+
+
+/* scanlines */
+
+.scanlines {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,.025) 4px
+        );
+
+    z-index: 8;
+
+    pointer-events: none;
+}
+
+
+/* static */
+
+.static {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 7;
+
+    pointer-events: none;
+
+    opacity: .08;
+
+    background:
+        repeating-radial-gradient(
+            circle,
+            #fff 0px,
+            transparent 1px,
+            transparent 4px
+        );
+
+    animation: staticMove .15s infinite;
+}
+
+@keyframes staticMove {
+    0% {
+        transform: translate(0,0);
+    }
+
+    50% {
+        transform: translate(3px,-2px);
+    }
+
+    100% {
+        transform: translate(-2px,2px);
+    }
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.visitor-info {
+    text-align: center;
+
+    margin-top: 15px;
+}
+
+#visitorName {
+    font-weight: 900;
+
+    font-size: 17px;
+
+    letter-spacing: 2px;
+}
+
+#visitorDescription {
+    margin-top: 7px;
+
+    color: #777;
+
+    font-size: 12px;
+}
+
+
+/* =========================
+   TIMER
+========================= */
+
+.timer {
+    text-align: center;
+
+    margin-top: 12px;
+
+    color: #555;
+
+    font-size: 11px;
+}
+
+#visitorTimer {
+    color: #aaa;
+
+    margin-left: 5px;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.actions {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.action {
+    flex: 1;
+
+    height: 52px;
+
+    border: 1px solid #333;
+
+    background: #101010;
+
+    color: #ccc;
+
+    font-weight: 900;
+
+    cursor: pointer;
+
+    letter-spacing: 1px;
+
+    transition: .15s;
+}
+
+.action:hover {
+    transform: translateY(-2px);
+}
+
+.action.open:hover {
+    background: #172017;
+}
+
+.action.reject:hover {
+    background: #261212;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    position: absolute;
+
+    left: 0;
+    right: 0;
+    bottom: 0;
+
+    height: 50px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 0 24px;
+
+    background: #090909;
+
+    border-top: 1px solid #222;
+
+    color: #555;
+
+    font-size: 11px;
+
+    z-index: 20;
+}
+
+.counter {
+    font-family: monospace;
+}
+
+
+/* =========================
+   CRT
+========================= */
+
+.crt {
+    position: absolute;
+
+    inset: 0;
+
+    pointer-events: none;
+
+    z-index: 100;
+
+    background:
+        radial-gradient(
+            ellipse at center,
+            transparent 45%,
+            rgba(0,0,0,.35) 100%
+        );
+
+    box-shadow:
+        inset 0 0 100px #000;
+}
+
+
+/* =========================
+   BLACK SCREEN
+========================= */
+
+.black-screen {
+    position: absolute;
+
+    inset: 0;
+
+    background: #000;
+
+    z-index: 150;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    color: #999;
+
+    font-family: monospace;
+
+    text-align: center;
+
+    padding: 30px;
+}
+
+#blackText {
+    max-width: 500px;
+
+    line-height: 1.8;
+}
+
+
+/* =========================
+   JUMPSCARE
+========================= */
+
+.jumpscare {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 300;
+
+    background: #000;
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    overflow: hidden;
+}
+
+#jumpscareImage {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    animation:
+        jumpZoom .15s infinite alternate,
+        shake .04s infinite;
+}
+
+@keyframes jumpZoom {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.08);
+    }
+}
+
+@keyframes shake {
+    0% {
+        transform: translate(4px, -2px) scale(1.08);
+    }
+
+    50% {
+        transform: translate(-5px, 3px) scale(1.1);
+    }
+
+    100% {
+        transform: translate(2px, 4px) scale(1.08);
+    }
+}
+
+
+/* =========================
+   GAME OVER
+========================= */
+
+.game-over {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 400;
+
+    background: rgba(0,0,0,.95);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    text-align: center;
+}
+
+.game-over-box {
+    padding: 35px;
+
+    border: 1px solid #292929;
+
+    background: #090909;
+
+    max-width: 450px;
+}
+
+.game-over h1 {
+    font-size: 28px;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 20px;
+}
+
+.game-over p {
+    color: #666;
+
+    margin-bottom: 25px;
+}
+
+#restartButton {
+    width: 180px;
+    height: 45px;
+
+    background: #111;
+
+    color: #aaa;
+
+    border: 1px solid #333;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 650px) {
+
+    .topbar {
+        padding: 0 12px;
+        font-size: 10px;
+    }
+
+    .door {
+        width: 65vw;
+        height: 70vh;
+    }
+
+    .bell-button {
+        right: 4%;
+        width: 70px;
+        height: 70px;
+        font-size: 10px;
+    }
+
+    footer {
+        padding: 0 10px;
+    }
+
+    .visitor-panel {
+        padding: 12px;
+    }
+
+    .action {
+        font-size: 11px;
+    }
+}
