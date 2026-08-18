@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>ПОШЁЛ НАХУЙ</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <div id="game">
+
+        <!-- Верхняя панель -->
+
+        <div class="topbar">
+            <div class="game-title">ОТКРОЙ ДВЕРЬ</div>
+
+            <div class="night">
+                НОЧЬ <span id="nightNumber">1</span>
+            </div>
+
+            <div class="clock" id="clock">
+                23:41
+            </div>
+        </div>
+
+
+        <!-- Основная сцена -->
+
+        <main class="scene">
+
+            <div class="room">
+
+                <!-- Дверь -->
+
+                <div class="door">
+
+                    <div class="door-text">
+                        КВАРТИРА 37
+                    </div>
+
+                    <div class="peephole"></div>
+
+                    <div class="door-handle"></div>
+
+                    <div class="door-shadow"></div>
+
+                </div>
+
+
+                <!-- UI звонка -->
+
+                <div id="doorbellMessage" class="doorbell-message">
+                    ...
+                </div>
+
+
+                <!-- Звонок -->
+
+                <button id="bellButton" class="bell-button">
+                    ЗВОНОК
+                </button>
+
+            </div>
+
+
+            <!-- Панель действий -->
+
+            <section id="visitorPanel" class="visitor-panel hidden">
+
+                <div class="panel-header">
+                    <span>КТО-ТО У ДВЕРИ</span>
+                    <span id="visitorNumber">#001</span>
+                </div>
+
+
+                <div class="peephole-view">
+
+                    <div class="peephole-ring">
+
+                        <div class="peephole-glass">
+
+                            <div class="static"></div>
+
+                            <img
+                                id="visitorImage"
+                                src=""
+                                alt="Посетитель"
+                            >
+
+                            <div class="fisheye-vignette"></div>
+
+                            <div class="scanlines"></div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-info">
+
+                    <div id="visitorName">
+                        НЕИЗВЕСТНЫЙ
+                    </div>
+
+                    <div id="visitorDescription">
+                        ...
+                    </div>
+
+                </div>
+
+
+                <div class="timer">
+                    <span>У двери:</span>
+                    <strong id="visitorTimer">00:00</strong>
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        id="openButton"
+                        class="action open"
+                    >
+                        ВПУСТИТЬ
+                    </button>
+
+                    <button
+                        id="rejectButton"
+                        class="action reject"
+                    >
+                        ПОШЁЛ НАХУЙ
+                    </button>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- Нижняя информация -->
+
+        <footer>
+
+            <div id="status">
+                Сижу. Жду.
+            </div>
+
+            <div class="counter">
+                Впущено: <span id="letIn">0</span>
+                |
+                Послано нахуй: <span id="rejected">0</span>
+            </div>
+
+        </footer>
+
+
+        <!-- CRT -->
+
+        <div class="crt"></div>
+
+
+        <!-- Чёрный экран -->
+
+        <div id="blackScreen" class="black-screen hidden">
+            <div id="blackText"></div>
+        </div>
+
+
+        <!-- Jumpscare -->
+
+        <div id="jumpscare" class="jumpscare hidden">
+
+            <img id="jumpscareImage" src="" alt="">
+
+            <div class="jumpscare-noise"></div>
+
+        </div>
+
+
+        <!-- Game Over -->
+
+        <div id="gameOver" class="game-over hidden">
+
+            <div class="game-over-box">
+
+                <h1>ТЕБЯ ПОСЕТИЛИ</h1>
+
+                <p id="deathReason">
+                    Ну всё.
+                </p>
+
+                <button id="restartButton">
+                    ЕЩЁ РАЗ
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <audio id="doorbellAudio" src="assets/audio/doorbell.mp3"></audio>
+    <audio id="knockAudio" src="assets/audio/knock.mp3"></audio>
+    <audio id="whisperAudio" src="assets/audio/whisper.mp3"></audio>
+    <audio id="jumpscareAudio" src="assets/audio/jumpscare.mp3"></audio>
+
+    <script src="app.js"></script>
+
+</body>
+</html>
