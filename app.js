@@ -1,37 +1,20 @@
-/* =========================================================
-   ОТКРОЙ ДВЕРЬ
-   Простая 2D хоррор-игра
-========================================================= */
-
-
-/* =========================================================
-   НАСТРОЙКИ
-========================================================= */
-
 const CONFIG = {
-
-    maxVisitors: 12,
-
-    startingHour: 23,
-    startingMinute: 41,
-
-    visitorTimeLimit: 35,
-
-    jumpscareDuration: 1800,
-
-    randomEvents: true
+    visitorsPerNight: 10,
+    visitorTime: 30,
+    startHour: 23,
+    startMinute: 41
 };
 
 
-/* =========================================================
-   ЭЛЕМЕНТЫ
-========================================================= */
+/* =========================
+   ELEMENTS
+========================= */
 
-const bellButton =
-    document.getElementById("bellButton");
+const doorbell =
+    document.getElementById("doorbell");
 
-const visitorPanel =
-    document.getElementById("visitorPanel");
+const visitorScreen =
+    document.getElementById("visitorScreen");
 
 const visitorImage =
     document.getElementById("visitorImage");
@@ -39,14 +22,20 @@ const visitorImage =
 const visitorName =
     document.getElementById("visitorName");
 
+const visitorAge =
+    document.getElementById("visitorAge");
+
 const visitorDescription =
     document.getElementById("visitorDescription");
 
-const visitorTimer =
-    document.getElementById("visitorTimer");
+const visitorType =
+    document.getElementById("visitorType");
 
-const visitorNumber =
-    document.getElementById("visitorNumber");
+const visitorId =
+    document.getElementById("visitorId");
+
+const timerText =
+    document.getElementById("timer");
 
 const openButton =
     document.getElementById("openButton");
@@ -57,20 +46,17 @@ const rejectButton =
 const statusText =
     document.getElementById("status");
 
+const doorMessage =
+    document.getElementById("doorMessage");
+
 const letInText =
     document.getElementById("letIn");
 
 const rejectedText =
     document.getElementById("rejected");
 
-const nightNumber =
-    document.getElementById("nightNumber");
-
-const clock =
-    document.getElementById("clock");
-
-const doorbellMessage =
-    document.getElementById("doorbellMessage");
+const timeText =
+    document.getElementById("time");
 
 const blackScreen =
     document.getElementById("blackScreen");
@@ -84,35 +70,44 @@ const jumpscare =
 const jumpscareImage =
     document.getElementById("jumpscareImage");
 
-const gameOver =
-    document.getElementById("gameOver");
+const ending =
+    document.getElementById("ending");
 
-const deathReason =
-    document.getElementById("deathReason");
+const endingNumber =
+    document.getElementById("endingNumber");
 
-const restartButton =
-    document.getElementById("restartButton");
+const endingTitle =
+    document.getElementById("endingTitle");
 
-const doorbellAudio =
-    document.getElementById("doorbellAudio");
+const endingText =
+    document.getElementById("endingText");
 
-const knockAudio =
-    document.getElementById("knockAudio");
+const restart =
+    document.getElementById("restart");
 
-const whisperAudio =
-    document.getElementById("whisperAudio");
+const doorbellSound =
+    document.getElementById("doorbellSound");
 
-const jumpscareAudio =
-    document.getElementById("jumpscareAudio");
+const knockSound =
+    document.getElementById("knockSound");
+
+const breathingSound =
+    document.getElementById("breathingSound");
+
+const whisperSound =
+    document.getElementById("whisperSound");
+
+const jumpscareSound =
+    document.getElementById("jumpscareSound");
 
 
-/* =========================================================
-   СОСТОЯНИЕ
-========================================================= */
+/* =========================
+   GAME STATE
+========================= */
 
 let currentVisitor = null;
 
-let visitorIndex = 0;
+let visitorCount = 0;
 
 let letIn = 0;
 
@@ -120,245 +115,240 @@ let rejected = 0;
 
 let timer = null;
 
-let visitorSeconds = 0;
+let secondsAtDoor = 0;
 
-let gameRunning = true;
+let gameOver = false;
 
-let clockMinutes = CONFIG.startingMinute;
+let hour = CONFIG.startHour;
 
-let clockHour = CONFIG.startingHour;
+let minute = CONFIG.startMinute;
 
 
-/* =========================================================
-   ПОСЕТИТЕЛИ
-=========================================================
-
-   evil = true
-   означает, что это НЕ человек.
-
-   image = PNG из assets/people/
-
-========================================================= */
+/* =========================
+   ПЕРСОНАЖИ
+========================= */
 
 const visitors = [
 
     {
-        name: "Саня",
-        image: "assets/people/normal_01.png",
+        id: "igor_old",
+
+        name: "Игорь Старый",
+
+        age: 63,
+
+        image:
+            "assets/people/igor_old.png",
+
+        type:
+            "ЧЕЛОВЕК",
 
         description:
-            "Говорит, что забыл ключи.",
+            "Сосед из квартиры 36. Всегда ходит в одной и той же куртке.",
 
         evil: false,
 
-        openText:
-            "Саня зашёл. Сказал спасибо. Ничего не произошло.",
+        open:
+            "Игорь зашёл, посмотрел на тебя и сказал: «Спасибо, сынок».",
 
-        rejectText:
-            "Саня сказал «ладно» и ушёл."
+        reject:
+            "Игорь пожал плечами и пошёл обратно."
     },
 
 
     {
-        name: "Бабушка",
-        image: "assets/people/oldwoman.png",
+        id: "igor_young",
+
+        name: "Игорь Младший",
+
+        age: 29,
+
+        image:
+            "assets/people/igor_young.png",
+
+        type:
+            "ЧЕЛОВЕК",
 
         description:
-            "Просит открыть. Стоит спокойно.",
+            "Говорит, что он брат Игоря Старого.",
 
         evil: false,
 
-        openText:
-            "Бабушка зашла и почему-то оставила тебе пирожок.",
+        open:
+            "Игорь зашёл. Через минуту они оба ушли.",
 
-        rejectText:
-            "Бабушка сказала: «Ну и ладно». Ушла."
+        reject:
+            "Игорь посмотрел на дверь и сказал: «Понял»."
     },
 
 
     {
+        id: "babushka",
+
+        name: "Людмила Петровна",
+
+        age: 71,
+
+        image:
+            "assets/people/babushka.png",
+
+        type:
+            "ЧЕЛОВЕК",
+
+        description:
+            "Бабушка с пакетом. Просит открыть.",
+
+        evil: false,
+
+        open:
+            "Она дала тебе пирожок и ушла.",
+
+        reject:
+            "Она сказала: «Ну ладно»."
+    },
+
+
+    {
+        id: "neighbor",
+
+        name: "Алексей",
+
+        age: 34,
+
+        image:
+            "assets/people/neighbor.png",
+
+        type:
+            "СОСЕД",
+
+        description:
+            "Говорит, что у него закончилась соль.",
+
+        evil: false,
+
+        open:
+            "Алексей взял соль и ушёл.",
+
+        reject:
+            "Алексей ушёл за солью к кому-то другому."
+    },
+
+
+    {
+        id: "courier",
+
         name: "Курьер",
-        image: "assets/people/normal_02.png",
+
+        age: 24,
+
+        image:
+            "assets/people/courier.png",
+
+        type:
+            "КУРЬЕР",
 
         description:
-            "Доставка. Ты ничего не заказывал.",
+            "Принёс посылку, которую ты не заказывал.",
 
         evil: false,
 
-        openText:
-            "Он оставил коробку. В коробке был кирпич.",
+        open:
+            "Он оставил коробку. Внутри оказался старый тапок.",
 
-        rejectText:
-            "Курьер пожал плечами и ушёл."
+        reject:
+            "Курьер забрал коробку."
     },
 
 
     {
-        name: "Мужик",
-        image: "assets/people/weird_01.png",
+        id: "igor",
+
+        name: "Игорь",
+
+        age: 44,
+
+        image:
+            "assets/people/igor_old.png",
+
+        type:
+            "НЕИЗВЕСТНО",
 
         description:
-            "Не двигается. Просто смотрит.",
+            "Стоит слишком близко к двери.",
 
         evil: true,
 
-        openText:
+        open:
             "Ты открыл дверь.",
 
-        rejectText:
-            "Он ещё долго стоял у двери..."
+        reject:
+            "Игорь медленно отошёл."
     },
 
 
     {
-        name: "Твоя мама",
-        image: "assets/people/normal_01.png",
+        id: "faceless",
+
+        name: "Безликий",
+
+        age: "?",
+
+        image:
+            "assets/people/faceless.png",
+
+        type:
+            "НЕ ЧЕЛОВЕК",
 
         description:
-            "Похоже на неё.",
+            "Лица нет. Но он смотрит прямо на тебя.",
 
         evil: true,
 
-        openText:
-            "Это была не твоя мама.",
+        open:
+            "Он вошёл.",
 
-        rejectText:
-            "За дверью стало тихо."
+        reject:
+            "Он наклонился к глазку и прошептал твоё имя."
     },
 
 
     {
-        name: "Сосед",
-        image: "assets/people/normal_02.png",
+        id: "thing",
 
-        description:
-            "Просит немного соли.",
-
-        evil: false,
-
-        openText:
-            "Сосед взял соль и ушёл.",
-
-        rejectText:
-            "Сосед сказал, что соль ему больше не нужна."
-    },
-
-
-    {
-        name: "Никто",
-        image: "assets/people/monster_01.png",
-
-        description:
-            "Ты не уверен, что это человек.",
-
-        evil: true,
-
-        openText:
-            "Не надо было открывать.",
-
-        rejectText:
-            "Оно медленно отошло от двери."
-    },
-
-
-    {
-        name: "Девушка",
-        image: "assets/people/woman.png",
-
-        description:
-            "Говорит, что живёт этажом выше.",
-
-        evil: false,
-
-        openText:
-            "Она поблагодарила тебя и ушла.",
-
-        rejectText:
-            "Она ушла. Всё нормально."
-    },
-
-
-    {
-        name: "Мужчина без лица",
-        image: "assets/people/monster_01.png",
-
-        description:
-            "На месте лица что-то не так.",
-
-        evil: true,
-
-        openText:
-            "Дверь открылась сама.",
-
-        rejectText:
-            "Он прошептал: «правильно»."
-    },
-
-
-    {
-        name: "Дед",
-        image: "assets/people/oldman.png",
-
-        description:
-            "Просто дед.",
-
-        evil: false,
-
-        openText:
-            "Дед зашёл, посмотрел на тебя и сказал: «Молодец».",
-
-        rejectText:
-            "Дед ушёл."
-    },
-
-
-    {
-        name: "Паша",
-        image: "assets/people/normal_01.png",
-
-        description:
-            "Просит зарядить телефон.",
-
-        evil: false,
-
-        openText:
-            "Паша зарядил телефон и ушёл.",
-
-        rejectText:
-            "Паша сказал: «пон». И ушёл."
-    },
-
-
-    {
         name: "Оно",
-        image: "assets/people/monster_01.png",
+
+        age: "???",
+
+        image:
+            "assets/people/thing.png",
+
+        type:
+            "НЕИЗВЕСТНО",
 
         description:
-            "Оно знает, что ты смотришь.",
+            "Ты не знаешь, что это такое.",
 
         evil: true,
 
-        openText:
-            "Ты открыл дверь.",
+        open:
+            "Дверь открылась.",
 
-        rejectText:
-            "Оно улыбнулось через глазок."
+        reject:
+            "Оно осталось стоять."
     }
 
 ];
 
 
-/* =========================================================
+/* =========================
    START
-========================================================= */
+========================= */
 
 function startGame() {
 
-    gameRunning = true;
+    gameOver = false;
 
-    currentVisitor = null;
-
-    visitorIndex = 0;
+    visitorCount = 0;
 
     letIn = 0;
 
@@ -366,94 +356,97 @@ function startGame() {
 
     updateCounters();
 
-    gameOver.classList.add("hidden");
-
-    visitorPanel.classList.add("hidden");
-
     statusText.textContent =
         "Сижу. Жду.";
 
-    doorbellMessage.textContent =
-        "Тишина...";
+    doorMessage.textContent =
+        "Тишина.";
 
-    startClock();
+    updateClock();
 }
 
 
-/* =========================================================
-   ЧАСЫ
-========================================================= */
+/* =========================
+   CLOCK
+========================= */
 
-function startClock() {
+setInterval(() => {
 
-    setInterval(() => {
-
-        if (!gameRunning)
-            return;
-
-        clockMinutes++;
-
-        if (clockMinutes >= 60) {
-
-            clockMinutes = 0;
-
-            clockHour++;
-
-            if (clockHour >= 24) {
-                clockHour = 0;
-            }
-        }
-
-        clock.textContent =
-            `${String(clockHour).padStart(2, "0")}:${String(clockMinutes).padStart(2, "0")}`;
-
-    }, 3000);
-}
-
-
-/* =========================================================
-   ЗВОНОК
-========================================================= */
-
-bellButton.addEventListener("click", () => {
-
-    if (!gameRunning)
+    if (gameOver)
         return;
 
-    if (currentVisitor)
-        return;
+    minute++;
 
-    if (visitorIndex >= CONFIG.maxVisitors) {
+    if (minute >= 60) {
 
-        finishNight();
+        minute = 0;
 
-        return;
+        hour++;
+
+        if (hour >= 24)
+            hour = 0;
     }
 
-    spawnVisitor();
-});
+    updateClock();
+
+}, 4000);
 
 
-/* =========================================================
-   ПОЯВЛЕНИЕ ПОСЕТИТЕЛЯ
-========================================================= */
+function updateClock() {
+
+    timeText.textContent =
+        `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+}
+
+
+/* =========================
+   DOORBELL
+========================= */
+
+doorbell.addEventListener(
+    "click",
+    () => {
+
+        if (gameOver)
+            return;
+
+        if (currentVisitor)
+            return;
+
+        if (
+            visitorCount >=
+            CONFIG.visitorsPerNight
+        ) {
+
+            goodEnding();
+
+            return;
+        }
+
+        spawnVisitor();
+    }
+);
+
+
+/* =========================
+   SPAWN
+========================= */
 
 function spawnVisitor() {
 
-    visitorIndex++;
+    visitorCount++;
 
-    const randomVisitor =
+    currentVisitor =
         visitors[
             Math.floor(
-                Math.random() * visitors.length
+                Math.random() *
+                visitors.length
             )
         ];
 
-    currentVisitor = {
-        ...randomVisitor
-    };
-
-    visitorPanel.classList.remove("hidden");
+    visitorScreen.classList.remove(
+        "hidden"
+    );
 
     visitorImage.src =
         currentVisitor.image;
@@ -461,219 +454,339 @@ function spawnVisitor() {
     visitorName.textContent =
         currentVisitor.name;
 
+    visitorAge.textContent =
+        `Возраст: ${currentVisitor.age}`;
+
     visitorDescription.textContent =
         currentVisitor.description;
 
-    visitorNumber.textContent =
+    visitorType.textContent =
+        currentVisitor.type;
+
+    visitorId.textContent =
         "#" +
-        String(visitorIndex).padStart(3, "0");
+        String(visitorCount).padStart(3, "0");
 
     statusText.textContent =
-        "Кто-то пришёл.";
+        "Кто-то у двери.";
 
-    doorbellMessage.textContent =
-        "ЗВОНОК...";
+    doorMessage.textContent =
+        "КТО-ТО У ДВЕРИ";
 
-    playSound(doorbellAudio);
+    playSound(doorbellSound);
 
-    startVisitorTimer();
+    startTimer();
 
-    randomVisitorBehavior();
-
+    specialVisitorEvents();
 }
 
 
-/* =========================================================
-   ТАЙМЕР
-========================================================= */
+/* =========================
+   TIMER
+========================= */
 
-function startVisitorTimer() {
+function startTimer() {
 
     clearInterval(timer);
 
-    visitorSeconds = 0;
+    secondsAtDoor = 0;
 
-    visitorTimer.textContent =
+    timerText.textContent =
         "00:00";
 
     timer = setInterval(() => {
 
-        visitorSeconds++;
+        secondsAtDoor++;
 
-        const seconds =
-            String(visitorSeconds).padStart(2, "0");
-
-        visitorTimer.textContent =
-            `00:${seconds}`;
+        timerText.textContent =
+            `00:${String(secondsAtDoor).padStart(2, "0")}`;
 
         if (
-            visitorSeconds >=
-            CONFIG.visitorTimeLimit
+            secondsAtDoor >=
+            CONFIG.visitorTime
         ) {
 
-            visitorLeavesAutomatically();
+            visitorLeaves();
+
         }
 
     }, 1000);
 }
 
 
-/* =========================================================
-   ПОСЕТИТЕЛЬ УХОДИТ
-========================================================= */
+/* =========================
+   LEAVE
+========================= */
 
-function visitorLeavesAutomatically() {
-
-    clearInterval(timer);
+function visitorLeaves() {
 
     if (!currentVisitor)
         return;
+
+    clearInterval(timer);
+
+    visitorScreen.classList.add(
+        "hidden"
+    );
 
     statusText.textContent =
         "Он ушёл.";
 
-    doorbellMessage.textContent =
+    doorMessage.textContent =
         "Шаги удаляются...";
 
-    playSound(knockAudio);
+    playSound(knockSound);
+
+    currentVisitor = null;
 
     setTimeout(() => {
-
-        visitorPanel.classList.add("hidden");
-
-        currentVisitor = null;
 
         statusText.textContent =
             "Снова тишина.";
 
-        doorbellMessage.textContent =
-            "Тишина...";
+        doorMessage.textContent =
+            "Тишина.";
 
-    }, 1500);
+    }, 2500);
 }
 
 
-/* =========================================================
-   ВПУСТИТЬ
-========================================================= */
+/* =========================
+   OPEN
+========================= */
 
-openButton.addEventListener("click", () => {
+openButton.addEventListener(
+    "click",
+    () => {
 
-    if (!currentVisitor)
-        return;
+        if (!currentVisitor)
+            return;
 
-    const visitor =
-        currentVisitor;
+        const visitor =
+            currentVisitor;
 
-    clearInterval(timer);
+        clearInterval(timer);
 
-    if (visitor.evil) {
+        visitorScreen.classList.add(
+            "hidden"
+        );
 
-        visitorPanel.classList.add("hidden");
+        currentVisitor = null;
 
-        statusText.textContent =
-            "Ты открыл дверь.";
+        if (visitor.evil) {
 
-        evilVisitorEntered();
+            evilEndingSequence(
+                visitor
+            );
 
-    } else {
+            return;
+        }
 
         letIn++;
 
         updateCounters();
 
-        visitorPanel.classList.add("hidden");
-
         statusText.textContent =
-            visitor.openText;
-
-        currentVisitor = null;
+            visitor.open;
 
         setTimeout(() => {
 
             statusText.textContent =
                 "Сижу. Жду.";
 
-        }, 3000);
+        }, 3500);
     }
+);
 
-});
+
+/* =========================
+   REJECT
+========================= */
+
+rejectButton.addEventListener(
+    "click",
+    () => {
+
+        if (!currentVisitor)
+            return;
+
+        const visitor =
+            currentVisitor;
+
+        clearInterval(timer);
+
+        rejected++;
+
+        updateCounters();
+
+        visitorScreen.classList.add(
+            "hidden"
+        );
+
+        currentVisitor = null;
+
+        statusText.textContent =
+            visitor.reject;
+
+        playSound(knockSound);
+
+        /*
+            Если это опасный посетитель,
+            иногда он не уходит.
+        */
+
+        if (
+            visitor.evil &&
+            Math.random() < .45
+        ) {
+
+            creepyRejectEvent();
+
+        }
+
+    }
+);
 
 
-/* =========================================================
-   ПОШЁЛ НАХУЙ
-========================================================= */
+/* =========================
+   СТРАННЫЕ СОБЫТИЯ
+========================= */
 
-rejectButton.addEventListener("click", () => {
-
-    if (!currentVisitor)
-        return;
+function specialVisitorEvents() {
 
     const visitor =
         currentVisitor;
 
-    clearInterval(timer);
+    setTimeout(() => {
 
-    rejected++;
+        if (currentVisitor !== visitor)
+            return;
 
-    updateCounters();
+        if (visitor.id === "igor") {
 
-    visitorPanel.classList.add("hidden");
+            visitorDescription.textContent =
+                "Он улыбается. Но Игорь не улыбался никогда.";
 
-    currentVisitor = null;
+        }
 
-    statusText.textContent =
-        visitor.rejectText;
+        if (
+            visitor.id === "faceless"
+        ) {
 
-    playSound(knockAudio);
+            visitorDescription.textContent =
+                "Он сейчас смотрит прямо в камеру.";
 
-    /*
-        Иногда плохой посетитель
-        не уходит сразу.
-    */
+            playSound(
+                breathingSound
+            );
+        }
 
-    if (
-        visitor.evil &&
-        Math.random() < 0.35
-    ) {
+        if (
+            visitor.id === "thing"
+        ) {
 
-        creepyEvent();
+            visitorDescription.textContent =
+                "Не двигайся.";
 
-        return;
-    }
+        }
+
+    }, 5000);
+
 
     setTimeout(() => {
 
-        statusText.textContent =
-            "Сижу. Жду.";
+        if (currentVisitor !== visitor)
+            return;
+
+        if (visitor.evil) {
+
+            visitorImage.style.filter =
+                "brightness(.4) contrast(1.7)";
+
+            visitorDescription.textContent =
+                "Он ближе.";
+
+        }
+
+    }, 10000);
+}
+
+
+/* =========================
+   EVIL REJECT
+========================= */
+
+function creepyRejectEvent() {
+
+    setTimeout(() => {
+
+        blackScreen.classList.remove(
+            "hidden"
+        );
+
+        blackText.textContent =
+            "Ты слышишь дыхание.";
+
+        playSound(
+            breathingSound
+        );
+
+    }, 1500);
+
+
+    setTimeout(() => {
+
+        blackText.textContent =
+            "Но за дверью никого нет.";
 
     }, 3500);
 
-});
-
-
-/* =========================================================
-   ПЛОХОЙ ПОСЕТИТЕЛЬ
-========================================================= */
-
-function evilVisitorEntered() {
-
-    setTimeout(() => {
-
-        blackScreen.classList.remove("hidden");
-
-        blackText.textContent =
-            "Дверь закрылась.";
-
-    }, 700);
-
 
     setTimeout(() => {
 
         blackText.textContent =
-            "Ты слышишь шаги.";
+            "Тогда кто дышит?";
 
-        playSound(whisperAudio);
+    }, 5200);
+
+
+    setTimeout(() => {
+
+        blackScreen.classList.add(
+            "hidden"
+        );
+
+        statusText.textContent =
+            "Наверное, показалось.";
+
+    }, 7000);
+}
+
+
+/* =========================
+   EVIL OPEN
+========================= */
+
+function evilEndingSequence(
+    visitor
+) {
+
+    setTimeout(() => {
+
+        blackScreen.classList.remove(
+            "hidden"
+        );
+
+        blackText.textContent =
+            "Ты открыл дверь.";
+
+    }, 500);
+
+
+    setTimeout(() => {
+
+        blackText.textContent =
+            `${visitor.name} вошёл.`;
 
     }, 2200);
 
@@ -681,205 +794,177 @@ function evilVisitorEntered() {
     setTimeout(() => {
 
         blackText.textContent =
-            "Шаги остановились.";
+            "Он стоит прямо за тобой.";
+
+        playSound(
+            whisperSound
+        );
 
     }, 4000);
 
 
     setTimeout(() => {
 
-        blackText.textContent =
-            "Прямо за тобой.";
+        jumpscareImage.src =
+            getJumpscare(visitor);
 
-    }, 5200);
-
-
-    setTimeout(() => {
-
-        blackScreen.classList.add("hidden");
-
-        triggerJumpscare(
-            "assets/jumpscares/jumpscare_01.png",
-            "Ты сам его впустил."
+        blackScreen.classList.add(
+            "hidden"
         );
 
-    }, 6500);
+        jumpscare.classList.remove(
+            "hidden"
+        );
+
+        playSound(
+            jumpscareSound
+        );
+
+    }, 5700);
+
+
+    setTimeout(() => {
+
+        jumpscare.classList.add(
+            "hidden"
+        );
+
+        badEnding(
+            visitor
+        );
+
+    }, 8000);
 }
 
 
-/* =========================================================
-   КРИПОВОЕ СОБЫТИЕ
-========================================================= */
+/* =========================
+   JUMPSCARE IMAGE
+========================= */
 
-function creepyEvent() {
+function getJumpscare(visitor) {
 
-    statusText.textContent =
-        "Он ушёл.";
+    if (
+        visitor.id === "igor"
+    ) {
 
-    setTimeout(() => {
+        return "assets/jumpscares/igor_jumpscare.png";
+    }
 
-        blackScreen.classList.remove("hidden");
+    if (
+        visitor.id === "faceless"
+    ) {
 
-        blackText.textContent =
-            "Ты слышишь дыхание.";
+        return "assets/jumpscares/faceless_jumpscare.png";
+    }
 
-        playSound(whisperAudio);
-
-    }, 1800);
-
-
-    setTimeout(() => {
-
-        blackText.textContent =
-            "Но дверь закрыта.";
-
-    }, 3500);
-
-
-    setTimeout(() => {
-
-        blackScreen.classList.add("hidden");
-
-        statusText.textContent =
-            "Наверное, показалось.";
-
-    }, 5200);
+    return "assets/jumpscares/thing_jumpscare.png";
 }
 
 
-/* =========================================================
-   СЛУЧАЙНЫЕ СОБЫТИЯ
-========================================================= */
+/* =========================
+   ENDING 1
+   НОРМАЛЬНАЯ
+========================= */
 
-function randomVisitorBehavior() {
+function goodEnding() {
 
-    if (!CONFIG.randomEvents)
-        return;
+    gameOver = true;
 
-    if (!currentVisitor)
-        return;
+    ending.classList.remove(
+        "hidden"
+    );
 
-    const visitorAtMoment =
-        currentVisitor;
+    endingNumber.textContent =
+        "КОНЦОВКА 1 / 3";
 
-    setTimeout(() => {
+    endingTitle.textContent =
+        "ОБЫЧНАЯ НОЧЬ";
 
-        if (
-            currentVisitor !==
-            visitorAtMoment
-        ) {
-            return;
-        }
+    endingText.textContent =
+        `Ты никого подозрительного не впустил.
+        
+Впущено: ${letIn}
+Послано нахуй: ${rejected}
 
-        const event =
-            Math.floor(Math.random() * 4);
+Утро наступило.
 
-        if (event === 0) {
+Ничего особенного не произошло.
 
-            visitorDescription.textContent =
-                "Почему он смотрит прямо в глазок.";
+Ну почти.`;
 
-        }
-
-        if (event === 1) {
-
-            visitorDescription.textContent =
-                "Он перестал дышать.";
-
-            visitorImage.style.filter =
-                "contrast(1.5) brightness(.45)";
-
-        }
-
-        if (event === 2) {
-
-            playSound(knockAudio);
-
-            visitorDescription.textContent =
-                "Он постучал. Очень тихо.";
-
-        }
-
-        if (event === 3) {
-
-            visitorDescription.textContent =
-                "Кажется, он улыбнулся.";
-
-        }
-
-    }, 5000 + Math.random() * 7000);
 }
 
 
-/* =========================================================
-   JUMPSCARE
-========================================================= */
+/* =========================
+   ENDING 2
+   ПОСЛАЛ ВСЕХ
+========================= */
 
-function triggerJumpscare(
-    image,
-    reason
-) {
+function badRejectEnding() {
 
-    gameRunning = false;
+    gameOver = true;
 
-    jumpscareImage.src =
-        image;
+    ending.classList.remove(
+        "hidden"
+    );
 
-    jumpscare.classList.remove("hidden");
+    endingNumber.textContent =
+        "КОНЦОВКА 2 / 3";
 
-    playSound(jumpscareAudio);
+    endingTitle.textContent =
+        "НИКОГО НЕ ВПУСКАЙ";
 
-    setTimeout(() => {
+    endingText.textContent =
+        `Ты никого не впустил.
 
-        jumpscare.classList.add("hidden");
+Ты послал нахуй всех.
 
-        deathReason.textContent =
-            reason;
+Даже бабушку.
 
-        gameOver.classList.remove("hidden");
+Она до сих пор стоит под дверью.
 
-    }, CONFIG.jumpscareDuration);
+И теперь она знает,
+что ты дома.`;
+
 }
 
 
-/* =========================================================
-   НОЧЬ ЗАКОНЧЕНА
-========================================================= */
+/* =========================
+   ENDING 3
+   ПЛОХАЯ
+========================= */
 
-function finishNight() {
+function badEnding(visitor) {
 
-    gameRunning = false;
+    gameOver = true;
 
-    blackScreen.classList.remove("hidden");
+    ending.classList.remove(
+        "hidden"
+    );
 
-    blackText.textContent =
-        "До утра ты дожил.";
+    endingNumber.textContent =
+        "КОНЦОВКА 3 / 3";
 
+    endingTitle.textContent =
+        "ЗРЯ ОТКРЫЛ";
 
-    setTimeout(() => {
+    endingText.textContent =
+        `${visitor.name} оказался не человеком.
 
-        blackText.textContent =
-            `Впущено: ${letIn}\nПослано нахуй: ${rejected}`;
+Ты открыл дверь.
 
-    }, 2500);
+Он вошёл.
 
+Больше дверь никто не откроет.
 
-    setTimeout(() => {
-
-        blackScreen.classList.add("hidden");
-
-        gameOver.classList.remove("hidden");
-
-        deathReason.textContent =
-            "Ночь закончилась. Повезло.";
-
-    }, 5000);
+По крайней мере,
+изнутри.`;
 }
 
 
-/* =========================================================
+/* =========================
    COUNTERS
-========================================================= */
+========================= */
 
 function updateCounters() {
 
@@ -891,35 +976,25 @@ function updateCounters() {
 }
 
 
-/* =========================================================
+/* =========================
    AUDIO
-========================================================= */
+========================= */
 
-function playSound(audio) {
+function playSound(sound) {
 
-    try {
+    sound.currentTime = 0;
 
-        audio.currentTime = 0;
+    sound.volume = .75;
 
-        audio.volume = 0.7;
-
-        audio.play().catch(() => {});
-
-    } catch (error) {
-
-        console.log(
-            "Audio error:",
-            error
-        );
-    }
+    sound.play().catch(() => {});
 }
 
 
-/* =========================================================
+/* =========================
    RESTART
-========================================================= */
+========================= */
 
-restartButton.addEventListener(
+restart.addEventListener(
     "click",
     () => {
 
@@ -929,21 +1004,16 @@ restartButton.addEventListener(
 );
 
 
-/* =========================================================
-   КЛАВИАТУРА
-========================================================= */
+/* =========================
+   KEYBOARD
+========================= */
 
 document.addEventListener(
     "keydown",
-    (event) => {
+    event => {
 
-        if (!gameRunning)
+        if (gameOver)
             return;
-
-        /*
-            E = впустить
-            Q = послать нахуй
-        */
 
         if (
             event.key.toLowerCase() === "e"
@@ -965,8 +1035,8 @@ document.addEventListener(
 );
 
 
-/* =========================================================
+/* =========================
    START
-========================================================= */
+========================= */
 
 startGame();
