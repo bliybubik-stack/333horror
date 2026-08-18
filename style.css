@@ -1,45 +1,75 @@
-/* =====================================================
-   MAIN MENU
-===================================================== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
 
-.menu {
-    position: fixed;
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+body {
+    background: #050505;
+    color: #ddd;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+button {
+    font-family: inherit;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================
+   COMMON
+========================= */
+
+.screen {
+    position: absolute;
     inset: 0;
 
-    z-index: 1000;
-
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
 
     background:
         radial-gradient(
             circle at center,
-            #171717 0%,
-            #080808 50%,
-            #020202 100%
+            #171717,
+            #050505 70%
         );
 }
 
-.menu-box {
-    width: min(500px, 90vw);
 
-    padding: 50px 35px;
+/* =========================
+   MENU
+========================= */
+
+.menu-box {
+    width: min(440px, 90vw);
 
     text-align: center;
 
-    background: rgba(5,5,5,.96);
+    padding: 45px 30px;
 
     border: 1px solid #292929;
+
+    background: rgba(7,7,7,.95);
 
     box-shadow:
         0 30px 100px #000;
 }
 
-.menu-small {
-    color: #444;
+.small-title {
+    color: #555;
 
-    font-size: 10px;
+    font-size: 11px;
 
     letter-spacing: 5px;
 
@@ -47,46 +77,39 @@
 }
 
 .menu-box h1 {
-    font-size: clamp(40px, 8vw, 70px);
+    font-size: clamp(40px, 10vw, 75px);
 
-    line-height: .9;
+    line-height: .85;
 
-    letter-spacing: 7px;
+    letter-spacing: 8px;
 
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
-.menu-description {
+.menu-lore {
     color: #666;
-
-    font-size: 12px;
 
     line-height: 1.7;
 
-    margin-bottom: 8px;
+    margin-bottom: 30px;
 }
-
-
-/* MENU BUTTONS */
 
 .menu-button {
     display: block;
 
     width: 100%;
 
-    height: 52px;
+    height: 50px;
 
-    margin-top: 12px;
+    margin-top: 10px;
 
-    background: #0e0e0e;
+    border: 1px solid #303030;
+
+    background: #0d0d0d;
 
     color: #aaa;
 
-    border: 1px solid #292929;
-
     cursor: pointer;
-
-    letter-spacing: 2px;
 
     transition: .15s;
 }
@@ -94,143 +117,661 @@
 .menu-button:hover {
     background: #171717;
 
-    color: white;
+    color: #fff;
+}
 
-    border-color: #444;
+.version {
+    color: #333;
+
+    font-size: 9px;
+
+    margin-top: 25px;
 }
 
 
-/* DIFFICULTIES */
+/* =========================
+   DIFFICULTY
+========================= */
 
-.difficulty-panel {
-    margin-top: 18px;
+.difficulty-box {
+    width: min(550px, 92vw);
 
-    padding-top: 15px;
+    padding: 30px;
 
-    border-top: 1px solid #222;
+    background: #090909;
+
+    border: 1px solid #292929;
 }
 
-.difficulty-title {
+.difficulty-box h2 {
+    text-align: center;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 8px;
+}
+
+.subtext {
+    text-align: center;
+
     color: #555;
 
-    font-size: 10px;
+    font-size: 12px;
 
-    letter-spacing: 3px;
-
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 }
 
 .difficulty {
-    display: flex;
-
-    justify-content: space-between;
-    align-items: center;
-
     width: 100%;
 
-    height: 48px;
+    min-height: 65px;
 
-    padding: 0 15px;
+    display: flex;
 
-    margin-top: 7px;
+    flex-direction: column;
 
-    background: #0b0b0b;
+    align-items: flex-start;
 
-    border: 1px solid #222;
+    justify-content: center;
 
-    color: #aaa;
+    padding: 0 18px;
+
+    margin-top: 8px;
+
+    background: #101010;
+
+    border: 1px solid #252525;
+
+    color: #bbb;
 
     cursor: pointer;
+
+    text-align: left;
+}
+
+.difficulty:hover {
+    background: #181818;
+
+    border-color: #444;
 }
 
 .difficulty span {
     color: #555;
 
-    font-size: 10px;
+    font-size: 11px;
+
+    margin-top: 5px;
 }
 
-.difficulty:hover {
-    border-color: #555;
+.back-button {
+    width: 100%;
 
-    color: white;
-}
+    height: 42px;
 
-.difficulty.nightmare {
-    border-color: #321818;
-
-    color: #9a7777;
-}
-
-.difficulty.nightmare:hover {
-    background: #180909;
-
-    color: #ddd;
-}
-
-
-/* HOW TO */
-
-.how-to {
     margin-top: 20px;
 
-    padding: 20px;
-
-    background: #080808;
+    background: transparent;
 
     border: 1px solid #222;
 
-    text-align: left;
+    color: #555;
 
+    cursor: pointer;
+}
+
+
+/* =========================
+   LORE
+========================= */
+
+.lore-box {
+    width: min(650px, 92vw);
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    padding: 35px;
+
+    background: #090909;
+
+    border: 1px solid #292929;
+}
+
+.lore-box h2 {
+    letter-spacing: 4px;
+
+    margin-bottom: 25px;
+}
+
+.lore-text {
     color: #777;
 
-    font-size: 12px;
+    line-height: 1.8;
+
+    font-size: 13px;
+}
+
+.lore-text p {
+    margin-bottom: 15px;
+}
+
+.lore-text strong {
+    color: #aaa;
+
+    display: block;
+
+    margin-top: 25px;
 
     line-height: 1.8;
 }
 
-.how-to b {
-    color: #aaa;
+
+/* =========================
+   GAME
+========================= */
+
+#gameScreen {
+    position: absolute;
+
+    inset: 0;
+
+    background: #070707;
+}
+
+.hud {
+    position: absolute;
+
+    z-index: 20;
+
+    top: 0;
+    left: 0;
+    right: 0;
+
+    height: 55px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    padding: 0 20px;
+
+    background: #080808;
+
+    border-bottom: 1px solid #222;
+
+    font-size: 11px;
 
     letter-spacing: 2px;
 }
 
-.how-to p {
+main {
+    position: absolute;
+
+    top: 55px;
+    bottom: 48px;
+
+    left: 0;
+    right: 0;
+}
+
+
+/* =========================
+   ROOM
+========================= */
+
+.room {
+    width: 100%;
+    height: 100%;
+
+    position: relative;
+
+    overflow: hidden;
+}
+
+.room-image {
+    position: absolute;
+
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.door-image {
+    position: absolute;
+
+    left: 50%;
+    top: 52%;
+
+    transform: translate(-50%, -50%);
+
+    width: 45%;
+    height: 85%;
+
+    object-fit: contain;
+
+    filter: brightness(.72);
+}
+
+.doorbell {
+    position: absolute;
+
+    right: 8%;
+    top: 50%;
+
+    width: 100px;
+    height: 100px;
+
+    background: transparent;
+
+    border: 0;
+
+    cursor: pointer;
+}
+
+.doorbell img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    transition: .15s;
+}
+
+.doorbell:hover img {
+    transform: scale(1.08);
+}
+
+.doorbell:active img {
+    transform: scale(.9);
+}
+
+.door-message {
+    position: absolute;
+
+    bottom: 25px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    padding: 8px 15px;
+
+    background: rgba(0,0,0,.7);
+
+    color: #aaa;
+
+    font-family: monospace;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   VISITOR
+========================= */
+
+.visitor-screen {
+    position: absolute;
+
+    z-index: 100;
+
+    width: min(680px, 94vw);
+
+    max-height: 92vh;
+
+    overflow-y: auto;
+
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    padding: 18px;
+
+    background: #080808;
+
+    border: 1px solid #333;
+
+    box-shadow:
+        0 30px 100px #000;
+}
+
+.visitor-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    padding-bottom: 12px;
+
+    border-bottom: 1px solid #222;
+
+    color: #777;
+
+    font-size: 11px;
+
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   PEEPHOLE
+========================= */
+
+.peephole {
+    position: relative;
+
+    width: min(410px, 72vw);
+    height: min(410px, 72vw);
+
+    margin: 20px auto;
+
+    overflow: hidden;
+
+    border-radius: 50%;
+
+    border: 12px solid #050505;
+
+    background: #111;
+
+    box-shadow:
+        0 0 0 2px #333,
+        inset 0 0 90px #000;
+}
+
+.peephole img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    filter:
+        brightness(.7)
+        contrast(1.2)
+        saturate(.6);
+
+    transform: scale(1.08);
+}
+
+.peephole-dark {
+    position: absolute;
+
+    inset: 0;
+
+    box-shadow:
+        inset 0 0 100px 35px #000;
+
+    pointer-events: none;
+}
+
+.scanlines {
+    position: absolute;
+
+    inset: 0;
+
+    background:
+        repeating-linear-gradient(
+            0deg,
+            transparent 0px,
+            transparent 3px,
+            rgba(255,255,255,.025) 4px
+        );
+
+    pointer-events: none;
+}
+
+
+/* =========================
+   INFO
+========================= */
+
+.visitor-info {
+    text-align: center;
+}
+
+.visitor-info h2 {
+    letter-spacing: 3px;
+
+    font-size: 21px;
+}
+
+#visitorAge {
+    color: #555;
+
+    font-size: 11px;
+
     margin-top: 5px;
 }
 
+.type {
+    display: inline-block;
 
-/* GAME */
+    margin-top: 10px;
 
-.game-screen {
-    position: fixed;
+    padding: 5px 10px;
 
-    inset: 0;
+    border: 1px solid #282828;
+
+    color: #777;
+
+    font-size: 9px;
+
+    letter-spacing: 2px;
+}
+
+#visitorDescription {
+    margin-top: 12px;
+
+    color: #888;
+
+    font-size: 12px;
+}
+
+.visitor-lore {
+    margin-top: 10px;
+
+    color: #4d4d4d;
+
+    font-size: 11px;
+
+    font-style: italic;
 }
 
 
-/* ENDING */
+/* =========================
+   TIMER
+========================= */
 
-.ending {
-    position: fixed;
+.timer {
+    text-align: center;
 
-    inset: 0;
+    margin-top: 14px;
 
-    z-index: 900;
+    color: #555;
 
-    background: #030303;
+    font-size: 11px;
+}
+
+#visitorTimer {
+    color: #aaa;
+
+    font-family: monospace;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.actions {
+    display: flex;
+
+    gap: 10px;
+
+    margin-top: 18px;
+}
+
+.actions button {
+    flex: 1;
+
+    height: 52px;
+
+    background: #111;
+
+    border: 1px solid #333;
+
+    color: #bbb;
+
+    font-weight: 900;
+
+    cursor: pointer;
+}
+
+.open:hover {
+    background: #172017;
+}
+
+.reject:hover {
+    background: #281111;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    position: absolute;
+
+    bottom: 0;
+    left: 0;
+    right: 0;
+
+    height: 48px;
 
     display: flex;
 
-    justify-content: center;
+    justify-content: space-between;
+
     align-items: center;
+
+    padding: 0 20px;
+
+    background: #080808;
+
+    border-top: 1px solid #222;
+
+    color: #555;
+
+    font-size: 10px;
+}
+
+
+/* =========================
+   BLACK
+========================= */
+
+.black-screen {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 300;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background: #000;
+
+    color: #aaa;
+
+    font-family: monospace;
 
     text-align: center;
 }
 
+#blackText {
+    white-space: pre-line;
+
+    line-height: 2;
+}
+
+
+/* =========================
+   JUMPSCARE
+========================= */
+
+.jumpscare {
+    position: absolute;
+
+    inset: 0;
+
+    z-index: 500;
+
+    background: #000;
+}
+
+.jumpscare img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    animation:
+        shake .035s infinite,
+        zoom .12s infinite alternate;
+}
+
+@keyframes shake {
+
+    0% {
+        transform: translate(5px,-4px);
+    }
+
+    50% {
+        transform: translate(-5px,4px);
+    }
+
+    100% {
+        transform: translate(3px,2px);
+    }
+}
+
+@keyframes zoom {
+
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.1);
+    }
+}
+
+
+/* =========================
+   ENDING
+========================= */
+
+.ending {
+    z-index: 700;
+
+    background: #050505;
+}
+
 .ending-box {
-    width: min(550px, 90vw);
+    width: min(600px, 90vw);
 
     padding: 45px 30px;
+
+    text-align: center;
 
     background: #090909;
 
@@ -244,7 +785,7 @@
 
     letter-spacing: 4px;
 
-    margin-bottom: 20px;
+    margin-bottom: 18px;
 }
 
 #endingTitle {
@@ -258,23 +799,43 @@
 #endingText {
     color: #777;
 
-    white-space: pre-line;
-
     line-height: 1.8;
 
-    margin-bottom: 30px;
+    white-space: pre-line;
+
+    margin-bottom: 25px;
 }
 
-#restart {
-    width: 190px;
 
-    height: 45px;
+@media(max-width:650px) {
 
-    background: #111;
+    .hud {
+        padding: 0 10px;
 
-    border: 1px solid #333;
+        font-size: 8px;
+    }
 
-    color: #aaa;
+    .door-image {
+        width: 65%;
+    }
 
-    cursor: pointer;
+    .doorbell {
+        width: 70px;
+        height: 70px;
+
+        right: 3%;
+    }
+
+    footer {
+        padding: 0 8px;
+    }
+
+    .visitor-screen {
+        padding: 12px;
+    }
+
+    .actions button {
+        font-size: 10px;
+    }
+
 }
