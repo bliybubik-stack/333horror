@@ -1,105 +1,291 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ИГОРЬ</title>
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Открой дверь</title>
+
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<div id="game">
+<div class="game">
 
-    <!-- ROOM -->
+    <!-- TOP BAR -->
 
-    <div id="room">
+    <header class="topbar">
 
-        <img id="door" src="assets/door.png">
+        <div class="logo">
+            ОТКРОЙ ДВЕРЬ
+        </div>
 
-        <button id="bellButton">
-            <img src="assets/bell.png">
+        <div class="night">
+            НОЧЬ 01
+        </div>
+
+    </header>
+
+
+    <!-- MAIN ROOM -->
+
+    <main class="room">
+
+        <div class="room-darkness"></div>
+
+        <img
+            src="assets/door.png"
+            class="door"
+            id="door"
+            alt="Дверь"
+        >
+
+        <button
+            class="bell-button"
+            id="bellButton"
+            aria-label="Звонок"
+        >
+
+            <img
+                src="assets/bell.png"
+                alt="Звонок"
+            >
+
         </button>
 
-        <div id="roomText">
-            Тишина...
+
+        <!-- STATUS -->
+
+        <div
+            class="status"
+            id="status"
+        >
+            В квартире тихо.
         </div>
 
-    </div>
+    </main>
 
 
-    <!-- VISITOR -->
+    <!-- EVENT PANEL -->
 
-    <div id="visitorPanel" class="hidden">
+    <section
+        class="event-panel hidden"
+        id="eventPanel"
+    >
 
-        <div class="topbar">
-            <span>ДВЕРЬ</span>
-            <span id="igorCounter">0 / 30</span>
+        <div class="event-top">
+
+            <span class="event-label">
+                У ДВЕРИ
+            </span>
+
+            <span
+                class="event-time"
+                id="eventTime"
+            >
+                23:41
+            </span>
+
         </div>
 
 
-        <div id="peephole">
+        <div class="event-content">
 
-            <img id="igorImage">
+            <div class="event-icon">
+                !
+            </div>
 
-            <div class="darkness"></div>
+            <div>
 
-            <div class="grain"></div>
+                <h2 id="eventTitle">
+                    Кто-то стучит.
+                </h2>
+
+                <p id="eventDescription">
+                    За дверью кто-то стоит.
+                </p>
+
+            </div>
 
         </div>
 
 
-        <div id="visitorInfo">
+        <div class="event-actions">
 
-            <h1 id="igorName">
-                ИГОРЬ
-            </h1>
+            <button
+                class="action secondary"
+                id="lookButton"
+            >
+                ПОСМОТРЕТЬ
+            </button>
 
-            <p id="igorType">
-                ...
-            </p>
+            <button
+                class="action secondary"
+                id="ignoreButton"
+            >
+                НЕ ОТКРЫВАТЬ
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- PEEPHOLE -->
+
+    <section
+        class="inspect hidden"
+        id="inspect"
+    >
+
+        <div class="inspect-header">
+
+            <span>
+                ГЛАЗОК
+            </span>
+
+            <button
+                id="closeInspect"
+                class="close"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="peephole">
+
+            <img
+                id="igorImage"
+                src=""
+                alt="Посетитель"
+            >
+
+            <div class="peephole-shadow"></div>
+
+            <div class="noise"></div>
+
+        </div>
+
+
+        <div class="igor-info">
+
+            <div class="igor-name-row">
+
+                <h2 id="igorName">
+                    ИГОРЬ
+                </h2>
+
+                <span
+                    id="igorType"
+                    class="tag"
+                >
+                    ?
+                </span>
+
+            </div>
+
 
             <p id="igorDescription">
                 ...
             </p>
 
+
+            <div class="inspection">
+
+                <div>
+                    <small>ВОЗРАСТ</small>
+                    <strong id="igorAge">?</strong>
+                </div>
+
+                <div>
+                    <small>СОСТОЯНИЕ</small>
+                    <strong id="igorState">?</strong>
+                </div>
+
+                <div>
+                    <small>РЕАКЦИЯ</small>
+                    <strong id="igorReaction">?</strong>
+                </div>
+
+            </div>
+
+
+            <p
+                id="igorLore"
+                class="lore"
+            >
+                ...
+            </p>
+
         </div>
 
 
-        <div id="inspectText">
-            Посмотри внимательнее.
-        </div>
+        <div class="inspect-actions">
 
-
-        <div class="buttons">
-
-            <button id="inspectButton">
-                ОСМОТРЕТЬ
-            </button>
-
-            <button id="openButton">
+            <button
+                class="action open"
+                id="openButton"
+            >
                 ОТКРЫТЬ
             </button>
 
-            <button id="leaveButton">
+            <button
+                class="action reject"
+                id="rejectButton"
+            >
                 ПОШЁЛ НАХУЙ
             </button>
 
         </div>
 
-    </div>
+    </section>
 
 
     <!-- MESSAGE -->
 
-    <div id="message" class="hidden">
+    <div
+        class="message hidden"
+        id="message"
+    >
 
-        <div id="messageText"></div>
+        <div class="message-box">
+
+            <div
+                class="message-title"
+                id="messageTitle"
+            >
+                ...
+            </div>
+
+            <div
+                class="message-text"
+                id="messageText"
+            >
+                ...
+            </div>
+
+            <button
+                class="action"
+                id="continueButton"
+            >
+                ПОНЯТНО
+            </button>
+
+        </div>
 
     </div>
 
 
 </div>
+
 
 <script src="app.js"></script>
 
