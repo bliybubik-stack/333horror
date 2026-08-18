@@ -6,19 +6,44 @@
 
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    >
+
+    <meta
+        name="theme-color"
+        content="#070707"
+    >
+
+    <meta
+        name="mobile-web-app-capable"
+        content="yes"
+    >
+
+    <meta
+        name="apple-mobile-web-app-capable"
+        content="yes"
     >
 
     <title>Открой дверь</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 </head>
+
 
 <body>
 
-<div class="game">
+<div
+    class="game"
+    id="game"
+>
 
-    <!-- TOP BAR -->
+
+    <!-- =========================================
+         TOP BAR
+    ========================================== -->
 
     <header class="topbar">
 
@@ -26,45 +51,89 @@
             ОТКРОЙ ДВЕРЬ
         </div>
 
-        <div class="night">
+        <div
+            class="night"
+            id="night"
+        >
             НОЧЬ 01
         </div>
 
     </header>
 
 
-    <!-- MAIN ROOM -->
 
-    <main class="room">
+    <!-- =========================================
+         MAIN ROOM
+    ========================================== -->
 
-        <div class="room-darkness"></div>
+    <main
+        class="room"
+        id="room"
+    >
 
-        <img
-            src="assets/door.png"
-            class="door"
-            id="door"
-            alt="Дверь"
+        <!-- Darkness overlay -->
+
+        <div
+            class="room-darkness"
+            aria-hidden="true"
+        ></div>
+
+
+
+        <!-- =====================================
+             DOOR FRAME
+        ====================================== -->
+
+        <div
+            class="door-frame"
+            id="doorFrame"
         >
+
+            <img
+                src="assets/door.png"
+                class="door"
+                id="door"
+                alt="Дверь"
+                draggable="false"
+            >
+
+        </div>
+
+
+
+        <!-- =====================================
+             BELL BUTTON
+        ====================================== -->
 
         <button
             class="bell-button"
             id="bellButton"
-            aria-label="Звонок"
+            type="button"
+            aria-label="Позвонить в дверь"
         >
 
             <img
                 src="assets/bell.png"
-                alt="Звонок"
+                alt=""
+                draggable="false"
             >
+
+            <span>
+                ПОЗВОНИТЬ
+            </span>
 
         </button>
 
 
-        <!-- STATUS -->
+
+        <!-- =====================================
+             STATUS
+        ====================================== -->
 
         <div
             class="status"
             id="status"
+            aria-live="polite"
         >
             В квартире тихо.
         </div>
@@ -72,11 +141,15 @@
     </main>
 
 
-    <!-- EVENT PANEL -->
+
+    <!-- =========================================
+         SOMEONE AT THE DOOR PANEL
+    ========================================== -->
 
     <section
         class="event-panel hidden"
         id="eventPanel"
+        aria-label="Кто-то у двери"
     >
 
         <div class="event-top">
@@ -95,13 +168,18 @@
         </div>
 
 
+
         <div class="event-content">
 
-            <div class="event-icon">
+            <div
+                class="event-icon"
+                aria-hidden="true"
+            >
                 !
             </div>
 
-            <div>
+
+            <div class="event-text">
 
                 <h2 id="eventTitle">
                     Кто-то стучит.
@@ -116,18 +194,22 @@
         </div>
 
 
+
         <div class="event-actions">
 
             <button
                 class="action secondary"
                 id="lookButton"
+                type="button"
             >
                 ПОСМОТРЕТЬ
             </button>
 
+
             <button
                 class="action secondary"
                 id="ignoreButton"
+                type="button"
             >
                 НЕ ОТКРЫВАТЬ
             </button>
@@ -137,12 +219,18 @@
     </section>
 
 
-    <!-- PEEPHOLE -->
+
+    <!-- =========================================
+         PEEPHOLE / INSPECTION SCREEN
+    ========================================== -->
 
     <section
         class="inspect hidden"
         id="inspect"
+        aria-label="Осмотр посетителя"
     >
+
+        <!-- Header -->
 
         <div class="inspect-header">
 
@@ -150,9 +238,12 @@
                 ГЛАЗОК
             </span>
 
+
             <button
-                id="closeInspect"
                 class="close"
+                id="closeInspect"
+                type="button"
+                aria-label="Закрыть"
             >
                 ×
             </button>
@@ -160,22 +251,45 @@
         </div>
 
 
-        <div class="peephole">
+
+        <!-- =====================================
+             PEEPHOLE
+        ====================================== -->
+
+        <div
+            class="peephole"
+            id="peephole"
+        >
 
             <img
                 id="igorImage"
                 src=""
-                alt="Посетитель"
+                alt="Человек за дверью"
+                draggable="false"
             >
 
-            <div class="peephole-shadow"></div>
 
-            <div class="noise"></div>
+            <div
+                class="peephole-shadow"
+                aria-hidden="true"
+            ></div>
+
+
+            <div
+                class="noise"
+                aria-hidden="true"
+            ></div>
 
         </div>
 
 
+
+        <!-- =====================================
+             IGOR INFORMATION
+        ====================================== -->
+
         <div class="igor-info">
+
 
             <div class="igor-name-row">
 
@@ -183,9 +297,10 @@
                     ИГОРЬ
                 </h2>
 
+
                 <span
-                    id="igorType"
                     class="tag"
+                    id="igorType"
                 >
                     ?
                 </span>
@@ -193,34 +308,68 @@
             </div>
 
 
+
             <p id="igorDescription">
-                ...
+                За дверью кто-то стоит.
             </p>
 
 
+
+            <!-- Information cards -->
+
             <div class="inspection">
 
-                <div>
-                    <small>ВОЗРАСТ</small>
-                    <strong id="igorAge">?</strong>
-                </div>
 
                 <div>
-                    <small>СОСТОЯНИЕ</small>
-                    <strong id="igorState">?</strong>
+
+                    <small>
+                        ВОЗРАСТ
+                    </small>
+
+                    <strong id="igorAge">
+                        ?
+                    </strong>
+
                 </div>
 
+
+
                 <div>
-                    <small>РЕАКЦИЯ</small>
-                    <strong id="igorReaction">?</strong>
+
+                    <small>
+                        СОСТОЯНИЕ
+                    </small>
+
+                    <strong id="igorState">
+                        ?
+                    </strong>
+
                 </div>
+
+
+
+                <div>
+
+                    <small>
+                        РЕАКЦИЯ
+                    </small>
+
+                    <strong id="igorReaction">
+                        ?
+                    </strong>
+
+                </div>
+
 
             </div>
 
 
+
+            <!-- Lore -->
+
             <p
-                id="igorLore"
                 class="lore"
+                id="igorLore"
             >
                 ...
             </p>
@@ -228,42 +377,61 @@
         </div>
 
 
+
+        <!-- =====================================
+             DECISION BUTTONS
+        ====================================== -->
+
         <div class="inspect-actions">
+
 
             <button
                 class="action open"
                 id="openButton"
+                type="button"
             >
                 ОТКРЫТЬ
             </button>
 
+
             <button
                 class="action reject"
                 id="rejectButton"
+                type="button"
             >
                 ПОШЁЛ НАХУЙ
             </button>
+
 
         </div>
 
     </section>
 
 
-    <!-- MESSAGE -->
+
+    <!-- =========================================
+         MESSAGE OVERLAY
+    ========================================== -->
 
     <div
         class="message hidden"
         id="message"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="messageTitle"
     >
 
         <div class="message-box">
+
 
             <div
                 class="message-title"
                 id="messageTitle"
             >
-                ...
+                Тишина.
             </div>
+
+
 
             <div
                 class="message-text"
@@ -272,22 +440,31 @@
                 ...
             </div>
 
+
+
             <button
                 class="action"
                 id="continueButton"
+                type="button"
             >
                 ПОНЯТНО
             </button>
+
 
         </div>
 
     </div>
 
 
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="app.js"></script>
+
 </div>
 
-
-<script src="app.js"></script>
-
 </body>
+
 </html>
