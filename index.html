@@ -1,7 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0"
@@ -9,34 +12,42 @@
 
     <title>ОТКРОЙ ДВЕРЬ</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
 </head>
+
 
 <body>
 
 <div id="game">
 
-    <!-- ================= MENU ================= -->
 
-    <section id="menu" class="menu">
+    <!-- =========================
+         ГЛАВНОЕ МЕНЮ
+    ========================== -->
+
+    <section
+        id="menu"
+        class="screen"
+    >
 
         <div class="menu-box">
 
-            <div class="menu-small">
+            <div class="small-title">
                 КВАРТИРА 37
             </div>
 
-            <h1>ОТКРОЙ<br>ДВЕРЬ</h1>
+            <h1>
+                ОТКРОЙ<br>
+                ДВЕРЬ
+            </h1>
 
-            <p class="menu-description">
-                Хоррор игра
-            </p>
-
-            <p class="menu-description">
-                Смысл в том:
-                отвечай людям.
-                Если хорошие — впускай.
-                Если тухлые — пошли их нахуй.
+            <p class="menu-lore">
+                Ночь. 23:41.<br>
+                Кто-то снова звонит.
             </p>
 
 
@@ -57,82 +68,18 @@
 
 
             <button
-                id="howToButton"
+                id="loreButton"
                 class="menu-button"
             >
-                КАК ИГРАТЬ
+                ЛОР
             </button>
 
 
             <div
-                id="difficultyPanel"
-                class="difficulty-panel hidden"
+                id="menuVersion"
+                class="version"
             >
-
-                <div class="difficulty-title">
-                    ВЫБЕРИ СЛОЖНОСТЬ
-                </div>
-
-                <button
-                    class="difficulty easy"
-                    data-difficulty="easy"
-                >
-                    <b>ЛЁГКАЯ</b>
-                    <span>20 Игорей</span>
-                </button>
-
-                <button
-                    class="difficulty normal"
-                    data-difficulty="normal"
-                >
-                    <b>НОРМАЛЬНАЯ</b>
-                    <span>20 Игорей</span>
-                </button>
-
-                <button
-                    class="difficulty nightmare"
-                    data-difficulty="nightmare"
-                >
-                    <b>КОШМАР</b>
-                    <span>20 Игорей</span>
-                </button>
-
-            </div>
-
-
-            <div
-                id="howTo"
-                class="how-to hidden"
-            >
-                <b>КАК ИГРАТЬ</b>
-
-                <p>
-                    Кто-то звонит.
-                </p>
-
-                <p>
-                    Смотри в глазок.
-                </p>
-
-                <p>
-                    Решай, кто перед тобой.
-                </p>
-
-                <p>
-                    ВПУСТИТЬ — E
-                </p>
-
-                <p>
-                    ПОШЁЛ НАХУЙ — Q
-                </p>
-
-                <p>
-                    Некоторые люди врут.
-                </p>
-
-                <p>
-                    Некоторые вообще не люди.
-                </p>
+                v1.0 — тут всё нормально
             </div>
 
         </div>
@@ -140,46 +87,213 @@
     </section>
 
 
-    <!-- ================= GAME ================= -->
+
+    <!-- =========================
+         СЛОЖНОСТЬ
+    ========================== -->
+
+    <section
+        id="difficultyScreen"
+        class="screen hidden"
+    >
+
+        <div class="difficulty-box">
+
+            <h2>
+                СЛОЖНОСТЬ
+            </h2>
+
+            <p class="subtext">
+                20 посетителей в каждой сложности.
+            </p>
+
+
+            <button
+                class="difficulty"
+                data-difficulty="easy"
+            >
+
+                <b>ЛЕГКО</b>
+
+                <span>
+                    Почти все нормальные.
+                </span>
+
+            </button>
+
+
+            <button
+                class="difficulty"
+                data-difficulty="normal"
+            >
+
+                <b>НОРМАЛЬНО</b>
+
+                <span>
+                    Уже есть проблемы.
+                </span>
+
+            </button>
+
+
+            <button
+                class="difficulty"
+                data-difficulty="hard"
+            >
+
+                <b>СЛОЖНО</b>
+
+                <span>
+                    Они начинают понимать.
+                </span>
+
+            </button>
+
+
+            <button
+                class="difficulty"
+                data-difficulty="nightmare"
+            >
+
+                <b>КОШМАР</b>
+
+                <span>
+                    Они знают, что ты дома.
+                </span>
+
+            </button>
+
+
+            <button
+                id="backFromDifficulty"
+                class="back-button"
+            >
+                НАЗАД
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         ЛОР
+    ========================== -->
+
+    <section
+        id="loreScreen"
+        class="screen hidden"
+    >
+
+        <div class="lore-box">
+
+            <h2>
+                ЧТО ЗДЕСЬ ПРОИСХОДИТ
+            </h2>
+
+            <div class="lore-text">
+
+                <p>
+                    Дом №17 построили в 1987 году.
+                </p>
+
+                <p>
+                    В квартире 37 никто официально
+                    не живёт уже 11 лет.
+                </p>
+
+                <p>
+                    Но каждую ночь в 23:41
+                    кто-то звонит в дверь.
+                </p>
+
+                <p>
+                    Первый человек, который открыл
+                    дверь, был Игорь.
+                </p>
+
+                <p>
+                    Через неделю появился другой Игорь.
+                </p>
+
+                <p>
+                    Потом ещё один.
+                </p>
+
+                <p>
+                    Соседи говорят, что их было
+                    двадцать.
+                </p>
+
+                <p>
+                    Никто не знает, почему у всех
+                    одно имя.
+                </p>
+
+                <p>
+                    Самое странное:
+                    некоторые из них знают вещи,
+                    которые мог знать только
+                    настоящий хозяин квартиры.
+                </p>
+
+                <p>
+                    Поэтому правило простое:
+                </p>
+
+                <strong>
+                    СМОТРИ В ГЛАЗОК.
+                    НЕ СПЕШИ ОТКРЫВАТЬ.
+                </strong>
+
+            </div>
+
+
+            <button
+                id="backFromLore"
+                class="back-button"
+            >
+                НАЗАД
+            </button>
+
+        </div>
+
+    </section>
+
+
+
+    <!-- =========================
+         GAME
+    ========================== -->
 
     <section
         id="gameScreen"
-        class="game-screen hidden"
+        class="hidden"
     >
 
         <div class="hud">
 
-            <div>
-                <b>ОТКРОЙ ДВЕРЬ</b>
-            </div>
+            <span>
+                КВАРТИРА 37
+            </span>
 
-            <div id="difficultyText">
-                НОРМАЛЬНАЯ
-            </div>
+            <span id="gameTime">
+                23:41
+            </span>
 
-            <div>
-                <span id="time">
-                    23:41
+            <span>
+                <span id="difficultyName">
+                    ЛЕГКО
                 </span>
-            </div>
-
-            <div>
-                ИГОРЬ
-                <span id="visitorNumber">
-                    01
-                </span>
-                / 20
-            </div>
+            </span>
 
         </div>
 
 
         <main>
 
-            <div
-                id="room"
-                class="room"
-            >
+            <div class="room">
 
                 <img
                     src="assets/room/room.png"
@@ -211,13 +325,14 @@
                     id="doorMessage"
                     class="door-message"
                 >
-                    Сижу. Жду.
+                    Тишина.
                 </div>
 
             </div>
 
 
-            <!-- VISITOR -->
+
+            <!-- ПОСЕТИТЕЛЬ -->
 
             <div
                 id="visitorScreen"
@@ -230,8 +345,8 @@
                         КТО-ТО У ДВЕРИ
                     </span>
 
-                    <span id="visitorId">
-                        #01
+                    <span id="visitorNumber">
+                        01 / 20
                     </span>
 
                 </div>
@@ -252,7 +367,7 @@
                 </div>
 
 
-                <div class="visitor-data">
+                <div class="visitor-info">
 
                     <h2 id="visitorName">
                         ИГОРЬ
@@ -262,25 +377,35 @@
                         Возраст: ?
                     </div>
 
+                    <div
+                        id="visitorType"
+                        class="type"
+                    >
+                        ?
+                    </div>
+
                     <p id="visitorDescription">
                         ...
                     </p>
 
-                    <div
-                        id="visitorType"
-                        class="visitor-type"
+                    <p
+                        id="visitorLore"
+                        class="visitor-lore"
                     >
                         ...
-                    </div>
+                    </p>
 
                 </div>
 
 
-                <div class="visitor-timer">
+                <div class="timer">
+
                     У двери:
-                    <span id="timer">
+
+                    <span id="visitorTimer">
                         00:00
                     </span>
+
                 </div>
 
 
@@ -288,14 +413,14 @@
 
                     <button
                         id="openButton"
-                        class="open-button"
+                        class="open"
                     >
                         ВПУСТИТЬ
                     </button>
 
                     <button
                         id="rejectButton"
-                        class="reject-button"
+                        class="reject"
                     >
                         ПОШЁЛ НАХУЙ
                     </button>
@@ -310,14 +435,14 @@
         <footer>
 
             <span id="status">
-                Тишина.
+                Сижу. Жду.
             </span>
 
             <span>
                 Впущено:
                 <b id="letIn">0</b>
 
-                |
+                &nbsp;|&nbsp;
 
                 Послано:
                 <b id="rejected">0</b>
@@ -328,17 +453,25 @@
     </section>
 
 
-    <!-- ================= BLACK SCREEN ================= -->
+
+    <!-- =========================
+         BLACK SCREEN
+    ========================== -->
 
     <div
         id="blackScreen"
         class="black-screen hidden"
     >
+
         <div id="blackText"></div>
+
     </div>
 
 
-    <!-- ================= JUMPSCARE ================= -->
+
+    <!-- =========================
+         JUMPSCARE
+    ========================== -->
 
     <div
         id="jumpscare"
@@ -354,17 +487,20 @@
     </div>
 
 
-    <!-- ================= ENDING ================= -->
 
-    <div
+    <!-- =========================
+         ENDING
+    ========================== -->
+
+    <section
         id="ending"
-        class="ending hidden"
+        class="screen hidden"
     >
 
         <div class="ending-box">
 
             <div id="endingNumber">
-                КОНЦОВКА
+                КОНЦОВКА 1 / 4
             </div>
 
             <h1 id="endingTitle">
@@ -375,14 +511,20 @@
                 ...
             </p>
 
-            <button id="restart">
+            <button
+                id="restartButton"
+                class="menu-button"
+            >
                 В МЕНЮ
             </button>
 
         </div>
 
-    </div>
+    </section>
 
+
+
+    <!-- AUDIO -->
 
     <audio
         id="doorbellSound"
@@ -410,6 +552,7 @@
     ></audio>
 
 </div>
+
 
 <script src="app.js"></script>
 
