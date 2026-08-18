@@ -2,7 +2,10 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>ОТКРОЙ ДВЕРЬ</title>
 
@@ -13,209 +16,329 @@
 
 <div id="game">
 
-    <div class="hud">
+    <!-- ================= MENU ================= -->
 
-        <div>
-            <b>ОТКРОЙ ДВЕРЬ</b>
-        </div>
+    <section id="menu" class="menu">
 
-        <div id="time">
-            23:41
-        </div>
+        <div class="menu-box">
 
-        <div>
-            НОЧЬ <span id="night">1</span>
-        </div>
+            <div class="menu-small">
+                КВАРТИРА 37
+            </div>
 
-    </div>
+            <h1>ОТКРОЙ<br>ДВЕРЬ</h1>
 
+            <p class="menu-description">
+                Хоррор игра
+            </p>
 
-    <main>
+            <p class="menu-description">
+                Смысл в том:
+                отвечай людям.
+                Если хорошие — впускай.
+                Если тухлые — пошли их нахуй.
+            </p>
 
-        <!-- КОМНАТА -->
-
-        <div
-            id="room"
-            class="room"
-        >
-
-            <!-- ВСЯ КОМНАТА КАРТИНКОЙ -->
-
-            <img
-                src="assets/room/room.png"
-                class="room-image"
-                alt=""
-            >
-
-
-            <!-- ДВЕРЬ -->
-
-            <img
-                src="assets/room/door.png"
-                class="door-image"
-                alt=""
-            >
-
-
-            <!-- ЗВОНОК -->
 
             <button
-                id="doorbell"
-                class="doorbell"
+                id="newGameButton"
+                class="menu-button"
             >
-
-                <img
-                    src="assets/room/doorbell.png"
-                    alt="Звонок"
-                >
-
+                НОВАЯ ИГРА
             </button>
 
 
-            <!-- ТЕКСТ -->
+            <button
+                id="difficultyButton"
+                class="menu-button"
+            >
+                СЛОЖНОСТЬ
+            </button>
+
+
+            <button
+                id="howToButton"
+                class="menu-button"
+            >
+                КАК ИГРАТЬ
+            </button>
+
 
             <div
-                id="doorMessage"
-                class="door-message"
+                id="difficultyPanel"
+                class="difficulty-panel hidden"
             >
-                Сижу. Жду.
+
+                <div class="difficulty-title">
+                    ВЫБЕРИ СЛОЖНОСТЬ
+                </div>
+
+                <button
+                    class="difficulty easy"
+                    data-difficulty="easy"
+                >
+                    <b>ЛЁГКАЯ</b>
+                    <span>20 Игорей</span>
+                </button>
+
+                <button
+                    class="difficulty normal"
+                    data-difficulty="normal"
+                >
+                    <b>НОРМАЛЬНАЯ</b>
+                    <span>20 Игорей</span>
+                </button>
+
+                <button
+                    class="difficulty nightmare"
+                    data-difficulty="nightmare"
+                >
+                    <b>КОШМАР</b>
+                    <span>20 Игорей</span>
+                </button>
+
+            </div>
+
+
+            <div
+                id="howTo"
+                class="how-to hidden"
+            >
+                <b>КАК ИГРАТЬ</b>
+
+                <p>
+                    Кто-то звонит.
+                </p>
+
+                <p>
+                    Смотри в глазок.
+                </p>
+
+                <p>
+                    Решай, кто перед тобой.
+                </p>
+
+                <p>
+                    ВПУСТИТЬ — E
+                </p>
+
+                <p>
+                    ПОШЁЛ НАХУЙ — Q
+                </p>
+
+                <p>
+                    Некоторые люди врут.
+                </p>
+
+                <p>
+                    Некоторые вообще не люди.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= GAME ================= -->
+
+    <section
+        id="gameScreen"
+        class="game-screen hidden"
+    >
+
+        <div class="hud">
+
+            <div>
+                <b>ОТКРОЙ ДВЕРЬ</b>
+            </div>
+
+            <div id="difficultyText">
+                НОРМАЛЬНАЯ
+            </div>
+
+            <div>
+                <span id="time">
+                    23:41
+                </span>
+            </div>
+
+            <div>
+                ИГОРЬ
+                <span id="visitorNumber">
+                    01
+                </span>
+                / 20
             </div>
 
         </div>
 
 
-        <!-- ПАНЕЛЬ ПОСЕТИТЕЛЯ -->
+        <main>
 
-        <div
-            id="visitorScreen"
-            class="visitor-screen hidden"
-        >
-
-            <div class="visitor-header">
-
-                <span>
-                    КТО-ТО У ДВЕРИ
-                </span>
-
-                <span id="visitorId">
-                    #001
-                </span>
-
-            </div>
-
-
-            <!-- ГЛАЗОК -->
-
-            <div class="peephole">
+            <div
+                id="room"
+                class="room"
+            >
 
                 <img
-                    id="visitorImage"
-                    src=""
+                    src="assets/room/room.png"
+                    class="room-image"
                     alt=""
                 >
 
-                <div class="peephole-dark"></div>
+                <img
+                    src="assets/room/door.png"
+                    class="door-image"
+                    alt=""
+                >
 
-                <div class="scanlines"></div>
 
-            </div>
+                <button
+                    id="doorbell"
+                    class="doorbell"
+                >
 
+                    <img
+                        src="assets/room/doorbell.png"
+                        alt="Звонок"
+                    >
 
-            <!-- ИНФОРМАЦИЯ -->
+                </button>
 
-            <div class="visitor-data">
-
-                <h2 id="visitorName">
-                    НЕИЗВЕСТНЫЙ
-                </h2>
-
-                <div id="visitorAge">
-                    Возраст: ?
-                </div>
-
-                <p id="visitorDescription">
-                    ...
-                </p>
 
                 <div
-                    id="visitorType"
-                    class="visitor-type"
+                    id="doorMessage"
+                    class="door-message"
                 >
-                    ...
+                    Сижу. Жду.
                 </div>
 
             </div>
 
 
-            <!-- ТАЙМЕР -->
+            <!-- VISITOR -->
 
-            <div class="visitor-timer">
-                У двери:
-                <span id="timer">
-                    00:00
-                </span>
+            <div
+                id="visitorScreen"
+                class="visitor-screen hidden"
+            >
+
+                <div class="visitor-header">
+
+                    <span>
+                        КТО-ТО У ДВЕРИ
+                    </span>
+
+                    <span id="visitorId">
+                        #01
+                    </span>
+
+                </div>
+
+
+                <div class="peephole">
+
+                    <img
+                        id="visitorImage"
+                        src=""
+                        alt=""
+                    >
+
+                    <div class="peephole-dark"></div>
+
+                    <div class="scanlines"></div>
+
+                </div>
+
+
+                <div class="visitor-data">
+
+                    <h2 id="visitorName">
+                        ИГОРЬ
+                    </h2>
+
+                    <div id="visitorAge">
+                        Возраст: ?
+                    </div>
+
+                    <p id="visitorDescription">
+                        ...
+                    </p>
+
+                    <div
+                        id="visitorType"
+                        class="visitor-type"
+                    >
+                        ...
+                    </div>
+
+                </div>
+
+
+                <div class="visitor-timer">
+                    У двери:
+                    <span id="timer">
+                        00:00
+                    </span>
+                </div>
+
+
+                <div class="actions">
+
+                    <button
+                        id="openButton"
+                        class="open-button"
+                    >
+                        ВПУСТИТЬ
+                    </button>
+
+                    <button
+                        id="rejectButton"
+                        class="reject-button"
+                    >
+                        ПОШЁЛ НАХУЙ
+                    </button>
+
+                </div>
+
             </div>
 
-
-            <!-- КНОПКИ -->
-
-            <div class="actions">
-
-                <button
-                    id="openButton"
-                    class="open-button"
-                >
-                    ВПУСТИТЬ
-                </button>
-
-                <button
-                    id="rejectButton"
-                    class="reject-button"
-                >
-                    ПОШЁЛ НАХУЙ
-                </button>
-
-            </div>
-
-        </div>
-
-    </main>
+        </main>
 
 
-    <footer>
+        <footer>
 
-        <span id="status">
-            Тишина.
-        </span>
+            <span id="status">
+                Тишина.
+            </span>
 
-        <span>
-            Впущено:
-            <b id="letIn">0</b>
+            <span>
+                Впущено:
+                <b id="letIn">0</b>
 
-            &nbsp; | &nbsp;
+                |
 
-            Послано:
-            <b id="rejected">0</b>
-        </span>
+                Послано:
+                <b id="rejected">0</b>
+            </span>
 
-    </footer>
+        </footer>
+
+    </section>
 
 
-    <!-- ЧЁРНЫЙ ЭКРАН -->
+    <!-- ================= BLACK SCREEN ================= -->
 
     <div
         id="blackScreen"
         class="black-screen hidden"
     >
-
-        <div id="blackText">
-            ...
-        </div>
-
+        <div id="blackText"></div>
     </div>
 
 
-    <!-- СКРИМЕР -->
+    <!-- ================= JUMPSCARE ================= -->
 
     <div
         id="jumpscare"
@@ -231,7 +354,7 @@
     </div>
 
 
-    <!-- КОНЦОВКА -->
+    <!-- ================= ENDING ================= -->
 
     <div
         id="ending"
@@ -240,11 +363,8 @@
 
         <div class="ending-box">
 
-            <div
-                id="endingNumber"
-                class="ending-number"
-            >
-                КОНЦОВКА 1
+            <div id="endingNumber">
+                КОНЦОВКА
             </div>
 
             <h1 id="endingTitle">
@@ -256,15 +376,13 @@
             </p>
 
             <button id="restart">
-                ЕЩЁ РАЗ
+                В МЕНЮ
             </button>
 
         </div>
 
     </div>
 
-
-    <!-- AUDIO -->
 
     <audio
         id="doorbellSound"
