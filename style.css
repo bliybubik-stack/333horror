@@ -14,367 +14,61 @@ body {
 body {
     background: #050505;
     color: #ddd;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-button {
-    font-family: inherit;
-}
-
-.hidden {
-    display: none !important;
+    font-family: Arial, sans-serif;
 }
 
 
-/* =========================
-   COMMON
-========================= */
+/* ROOM */
 
-.screen {
-    position: absolute;
-    inset: 0;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    background:
-        radial-gradient(
-            circle at center,
-            #171717,
-            #050505 70%
-        );
-}
-
-
-/* =========================
-   MENU
-========================= */
-
-.menu-box {
-    width: min(440px, 90vw);
-
-    text-align: center;
-
-    padding: 45px 30px;
-
-    border: 1px solid #292929;
-
-    background: rgba(7,7,7,.95);
-
-    box-shadow:
-        0 30px 100px #000;
-}
-
-.small-title {
-    color: #555;
-
-    font-size: 11px;
-
-    letter-spacing: 5px;
-
-    margin-bottom: 20px;
-}
-
-.menu-box h1 {
-    font-size: clamp(40px, 10vw, 75px);
-
-    line-height: .85;
-
-    letter-spacing: 8px;
-
-    margin-bottom: 30px;
-}
-
-.menu-lore {
-    color: #666;
-
-    line-height: 1.7;
-
-    margin-bottom: 30px;
-}
-
-.menu-button {
-    display: block;
-
-    width: 100%;
-
-    height: 50px;
-
-    margin-top: 10px;
-
-    border: 1px solid #303030;
-
-    background: #0d0d0d;
-
-    color: #aaa;
-
-    cursor: pointer;
-
-    transition: .15s;
-}
-
-.menu-button:hover {
-    background: #171717;
-
-    color: #fff;
-}
-
-.version {
-    color: #333;
-
-    font-size: 9px;
-
-    margin-top: 25px;
-}
-
-
-/* =========================
-   DIFFICULTY
-========================= */
-
-.difficulty-box {
-    width: min(550px, 92vw);
-
-    padding: 30px;
-
-    background: #090909;
-
-    border: 1px solid #292929;
-}
-
-.difficulty-box h2 {
-    text-align: center;
-
-    letter-spacing: 5px;
-
-    margin-bottom: 8px;
-}
-
-.subtext {
-    text-align: center;
-
-    color: #555;
-
-    font-size: 12px;
-
-    margin-bottom: 20px;
-}
-
-.difficulty {
-    width: 100%;
-
-    min-height: 65px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    align-items: flex-start;
-
-    justify-content: center;
-
-    padding: 0 18px;
-
-    margin-top: 8px;
-
-    background: #101010;
-
-    border: 1px solid #252525;
-
-    color: #bbb;
-
-    cursor: pointer;
-
-    text-align: left;
-}
-
-.difficulty:hover {
-    background: #181818;
-
-    border-color: #444;
-}
-
-.difficulty span {
-    color: #555;
-
-    font-size: 11px;
-
-    margin-top: 5px;
-}
-
-.back-button {
-    width: 100%;
-
-    height: 42px;
-
-    margin-top: 20px;
-
-    background: transparent;
-
-    border: 1px solid #222;
-
-    color: #555;
-
-    cursor: pointer;
-}
-
-
-/* =========================
-   LORE
-========================= */
-
-.lore-box {
-    width: min(650px, 92vw);
-
-    max-height: 90vh;
-
-    overflow-y: auto;
-
-    padding: 35px;
-
-    background: #090909;
-
-    border: 1px solid #292929;
-}
-
-.lore-box h2 {
-    letter-spacing: 4px;
-
-    margin-bottom: 25px;
-}
-
-.lore-text {
-    color: #777;
-
-    line-height: 1.8;
-
-    font-size: 13px;
-}
-
-.lore-text p {
-    margin-bottom: 15px;
-}
-
-.lore-text strong {
-    color: #aaa;
-
-    display: block;
-
-    margin-top: 25px;
-
-    line-height: 1.8;
-}
-
-
-/* =========================
-   GAME
-========================= */
-
-#gameScreen {
-    position: absolute;
-
-    inset: 0;
-
-    background: #070707;
-}
-
-.hud {
-    position: absolute;
-
-    z-index: 20;
-
-    top: 0;
-    left: 0;
-    right: 0;
-
-    height: 55px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 0 20px;
-
-    background: #080808;
-
-    border-bottom: 1px solid #222;
-
-    font-size: 11px;
-
-    letter-spacing: 2px;
-}
-
-main {
-    position: absolute;
-
-    top: 55px;
-    bottom: 48px;
-
-    left: 0;
-    right: 0;
-}
-
-
-/* =========================
-   ROOM
-========================= */
-
-.room {
+#game {
     width: 100%;
     height: 100%;
-
     position: relative;
+}
 
+#room {
+    position: absolute;
+    inset: 0;
+    background: #090909;
     overflow: hidden;
 }
 
-.room-image {
+#door {
     position: absolute;
 
-    inset: 0;
-
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-}
-
-.door-image {
-    position: absolute;
-
-    left: 50%;
-    top: 52%;
-
-    transform: translate(-50%, -50%);
-
-    width: 45%;
+    width: min(520px, 75vw);
     height: 85%;
 
     object-fit: contain;
 
-    filter: brightness(.72);
+    left: 50%;
+    top: 50%;
+
+    transform: translate(-50%, -50%);
+
+    filter: brightness(.65);
 }
 
-.doorbell {
+
+/* BELL */
+
+#bellButton {
     position: absolute;
 
     right: 8%;
     top: 50%;
 
-    width: 100px;
-    height: 100px;
+    width: 90px;
+    height: 90px;
 
     background: transparent;
 
-    border: 0;
+    border: none;
 
     cursor: pointer;
 }
 
-.doorbell img {
+#bellButton img {
     width: 100%;
     height: 100%;
 
@@ -383,27 +77,30 @@ main {
     transition: .15s;
 }
 
-.doorbell:hover img {
-    transform: scale(1.08);
+#bellButton:hover img {
+    transform: scale(1.1);
 }
 
-.doorbell:active img {
+#bellButton:active img {
     transform: scale(.9);
 }
 
-.door-message {
+
+/* ROOM TEXT */
+
+#roomText {
     position: absolute;
 
-    bottom: 25px;
+    bottom: 30px;
     left: 50%;
 
     transform: translateX(-50%);
 
-    padding: 8px 15px;
+    padding: 10px 18px;
 
     background: rgba(0,0,0,.7);
 
-    color: #aaa;
+    color: #777;
 
     font-family: monospace;
 
@@ -411,37 +108,37 @@ main {
 }
 
 
-/* =========================
-   VISITOR
-========================= */
+/* VISITOR */
 
-.visitor-screen {
+#visitorPanel {
     position: absolute;
 
-    z-index: 100;
-
-    width: min(680px, 94vw);
-
-    max-height: 92vh;
-
-    overflow-y: auto;
+    z-index: 10;
 
     left: 50%;
     top: 50%;
 
     transform: translate(-50%, -50%);
 
+    width: min(650px, 94vw);
+
     padding: 18px;
 
     background: #080808;
 
-    border: 1px solid #333;
+    border: 1px solid #292929;
 
-    box-shadow:
-        0 30px 100px #000;
+    box-shadow: 0 30px 100px #000;
 }
 
-.visitor-header {
+.hidden {
+    display: none !important;
+}
+
+
+/* TOPBAR */
+
+.topbar {
     display: flex;
 
     justify-content: space-between;
@@ -450,23 +147,21 @@ main {
 
     border-bottom: 1px solid #222;
 
-    color: #777;
+    color: #666;
 
     font-size: 11px;
 
-    letter-spacing: 2px;
+    letter-spacing: 3px;
 }
 
 
-/* =========================
-   PEEPHOLE
-========================= */
+/* PEEPHOLE */
 
-.peephole {
+#peephole {
     position: relative;
 
-    width: min(410px, 72vw);
-    height: min(410px, 72vw);
+    width: min(390px, 70vw);
+    height: min(390px, 70vw);
 
     margin: 20px auto;
 
@@ -474,213 +169,158 @@ main {
 
     border-radius: 50%;
 
-    border: 12px solid #050505;
+    border: 12px solid #030303;
 
     background: #111;
 
     box-shadow:
         0 0 0 2px #333,
-        inset 0 0 90px #000;
+        inset 0 0 80px #000;
 }
 
-.peephole img {
+#igorImage {
     width: 100%;
     height: 100%;
 
     object-fit: cover;
 
     filter:
-        brightness(.7)
-        contrast(1.2)
+        brightness(.65)
+        contrast(1.3)
         saturate(.6);
 
-    transform: scale(1.08);
+    transform: scale(1.05);
 }
 
-.peephole-dark {
+.darkness {
     position: absolute;
 
     inset: 0;
+
+    pointer-events: none;
 
     box-shadow:
         inset 0 0 100px 35px #000;
-
-    pointer-events: none;
 }
 
-.scanlines {
+.grain {
     position: absolute;
 
     inset: 0;
+
+    pointer-events: none;
+
+    opacity: .15;
 
     background:
         repeating-linear-gradient(
             0deg,
-            transparent 0px,
+            transparent,
             transparent 3px,
-            rgba(255,255,255,.025) 4px
+            #fff 4px
         );
-
-    pointer-events: none;
 }
 
 
-/* =========================
-   INFO
-========================= */
+/* INFO */
 
-.visitor-info {
+#visitorInfo {
     text-align: center;
 }
 
-.visitor-info h2 {
-    letter-spacing: 3px;
+#igorName {
+    font-size: 22px;
 
-    font-size: 21px;
+    letter-spacing: 4px;
 }
 
-#visitorAge {
-    color: #555;
-
-    font-size: 11px;
-
-    margin-top: 5px;
-}
-
-.type {
-    display: inline-block;
-
-    margin-top: 10px;
-
-    padding: 5px 10px;
-
-    border: 1px solid #282828;
-
-    color: #777;
-
-    font-size: 9px;
-
-    letter-spacing: 2px;
-}
-
-#visitorDescription {
-    margin-top: 12px;
-
-    color: #888;
-
-    font-size: 12px;
-}
-
-.visitor-lore {
-    margin-top: 10px;
-
-    color: #4d4d4d;
-
-    font-size: 11px;
-
-    font-style: italic;
-}
-
-
-/* =========================
-   TIMER
-========================= */
-
-.timer {
-    text-align: center;
-
-    margin-top: 14px;
-
-    color: #555;
-
-    font-size: 11px;
-}
-
-#visitorTimer {
-    color: #aaa;
-
-    font-family: monospace;
-}
-
-
-/* =========================
-   BUTTONS
-========================= */
-
-.actions {
-    display: flex;
-
-    gap: 10px;
-
-    margin-top: 18px;
-}
-
-.actions button {
-    flex: 1;
-
-    height: 52px;
-
-    background: #111;
-
-    border: 1px solid #333;
-
-    color: #bbb;
-
-    font-weight: 900;
-
-    cursor: pointer;
-}
-
-.open:hover {
-    background: #172017;
-}
-
-.reject:hover {
-    background: #281111;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer {
-    position: absolute;
-
-    bottom: 0;
-    left: 0;
-    right: 0;
-
-    height: 48px;
-
-    display: flex;
-
-    justify-content: space-between;
-
-    align-items: center;
-
-    padding: 0 20px;
-
-    background: #080808;
-
-    border-top: 1px solid #222;
+#igorType {
+    margin-top: 6px;
 
     color: #555;
 
     font-size: 10px;
+
+    letter-spacing: 2px;
+}
+
+#igorDescription {
+    margin-top: 12px;
+
+    color: #888;
+
+    font-size: 13px;
 }
 
 
-/* =========================
-   BLACK
-========================= */
+/* INSPECTION */
 
-.black-screen {
+#inspectText {
+    min-height: 30px;
+
+    margin-top: 15px;
+
+    text-align: center;
+
+    color: #666;
+
+    font-family: monospace;
+
+    font-size: 12px;
+}
+
+
+/* BUTTONS */
+
+.buttons {
+    display: flex;
+
+    gap: 8px;
+
+    margin-top: 12px;
+}
+
+.buttons button {
+    flex: 1;
+
+    height: 48px;
+
+    background: #101010;
+
+    border: 1px solid #292929;
+
+    color: #aaa;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    transition: .15s;
+}
+
+.buttons button:hover {
+    background: #191919;
+
+    color: #fff;
+}
+
+#openButton:hover {
+    background: #142014;
+}
+
+#leaveButton:hover {
+    background: #251111;
+}
+
+
+/* MESSAGE */
+
+#message {
     position: absolute;
 
-    inset: 0;
+    z-index: 100;
 
-    z-index: 300;
+    inset: 0;
 
     display: flex;
 
@@ -688,153 +328,41 @@ footer {
 
     justify-content: center;
 
-    background: #000;
+    background: rgba(0,0,0,.92);
+}
+
+#messageText {
+    text-align: center;
+
+    max-width: 500px;
+
+    padding: 30px;
 
     color: #aaa;
 
     font-family: monospace;
 
-    text-align: center;
-}
-
-#blackText {
-    white-space: pre-line;
+    font-size: 16px;
 
     line-height: 2;
 }
 
 
-/* =========================
-   JUMPSCARE
-========================= */
+/* MOBILE */
 
-.jumpscare {
-    position: absolute;
+@media(max-width:600px) {
 
-    inset: 0;
-
-    z-index: 500;
-
-    background: #000;
-}
-
-.jumpscare img {
-    width: 100%;
-    height: 100%;
-
-    object-fit: cover;
-
-    animation:
-        shake .035s infinite,
-        zoom .12s infinite alternate;
-}
-
-@keyframes shake {
-
-    0% {
-        transform: translate(5px,-4px);
-    }
-
-    50% {
-        transform: translate(-5px,4px);
-    }
-
-    100% {
-        transform: translate(3px,2px);
-    }
-}
-
-@keyframes zoom {
-
-    from {
-        transform: scale(1);
-    }
-
-    to {
-        transform: scale(1.1);
-    }
-}
-
-
-/* =========================
-   ENDING
-========================= */
-
-.ending {
-    z-index: 700;
-
-    background: #050505;
-}
-
-.ending-box {
-    width: min(600px, 90vw);
-
-    padding: 45px 30px;
-
-    text-align: center;
-
-    background: #090909;
-
-    border: 1px solid #292929;
-}
-
-#endingNumber {
-    color: #555;
-
-    font-size: 10px;
-
-    letter-spacing: 4px;
-
-    margin-bottom: 18px;
-}
-
-#endingTitle {
-    font-size: 32px;
-
-    letter-spacing: 5px;
-
-    margin-bottom: 20px;
-}
-
-#endingText {
-    color: #777;
-
-    line-height: 1.8;
-
-    white-space: pre-line;
-
-    margin-bottom: 25px;
-}
-
-
-@media(max-width:650px) {
-
-    .hud {
-        padding: 0 10px;
-
-        font-size: 8px;
-    }
-
-    .door-image {
-        width: 65%;
-    }
-
-    .doorbell {
-        width: 70px;
-        height: 70px;
-
+    #bellButton {
+        width: 65px;
+        height: 65px;
         right: 3%;
     }
 
-    footer {
-        padding: 0 8px;
-    }
-
-    .visitor-screen {
+    #visitorPanel {
         padding: 12px;
     }
 
-    .actions button {
+    .buttons button {
         font-size: 10px;
     }
 
