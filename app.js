@@ -1,33 +1,42 @@
-/*
-    ==========================================
-            ОТКРОЙ ДВЕРЬ
-            SIMPLE OVERHAUL
-    ==========================================
-
-    Mechanic:
-
-    1. Someone rings.
-    2. Look through the peephole.
-    3. Inspect them.
-    4. Decide.
-    5. Open or tell them to fuck off.
-
-    30 Igors.
-*/
+/* =========================================================
+   ОТКРОЙ ДВЕРЬ
+   SIMPLE OVERHAUL
+========================================================= */
 
 
-/* ==========================================
+/* =========================================================
    ELEMENTS
-========================================== */
-
-const roomText =
-    document.getElementById("roomText");
+========================================================= */
 
 const bellButton =
     document.getElementById("bellButton");
 
-const visitorPanel =
-    document.getElementById("visitorPanel");
+const status =
+    document.getElementById("status");
+
+const eventPanel =
+    document.getElementById("eventPanel");
+
+const eventTitle =
+    document.getElementById("eventTitle");
+
+const eventDescription =
+    document.getElementById("eventDescription");
+
+const eventTime =
+    document.getElementById("eventTime");
+
+const lookButton =
+    document.getElementById("lookButton");
+
+const ignoreButton =
+    document.getElementById("ignoreButton");
+
+const inspect =
+    document.getElementById("inspect");
+
+const closeInspect =
+    document.getElementById("closeInspect");
 
 const igorImage =
     document.getElementById("igorImage");
@@ -41,489 +50,998 @@ const igorType =
 const igorDescription =
     document.getElementById("igorDescription");
 
-const igorCounter =
-    document.getElementById("igorCounter");
+const igorAge =
+    document.getElementById("igorAge");
 
-const inspectText =
-    document.getElementById("inspectText");
+const igorState =
+    document.getElementById("igorState");
 
-const inspectButton =
-    document.getElementById("inspectButton");
+const igorReaction =
+    document.getElementById("igorReaction");
+
+const igorLore =
+    document.getElementById("igorLore");
 
 const openButton =
     document.getElementById("openButton");
 
-const leaveButton =
-    document.getElementById("leaveButton");
+const rejectButton =
+    document.getElementById("rejectButton");
 
 const message =
     document.getElementById("message");
 
+const messageTitle =
+    document.getElementById("messageTitle");
+
 const messageText =
     document.getElementById("messageText");
 
+const continueButton =
+    document.getElementById("continueButton");
 
-/* ==========================================
+
+/* =========================================================
+   GAME STATE
+========================================================= */
+
+let currentIgor = null;
+
+let someoneAtDoor = false;
+
+let gameOver = false;
+
+let hour = 23;
+
+let minute = 41;
+
+
+/* =========================================================
    30 IGORS
-========================================== */
+========================================================= */
 
 const igors = [
 
     {
         name: "Игорь Старый",
+        age: 67,
         type: "СОСЕД",
-        description: "Старый мужик с пакетом.",
         image: "assets/igors/igor01.png",
         good: true,
-        inspect: "Обычный старик. Дышит. Моргает."
+
+        description:
+            "Старый мужик в старой куртке. Выглядит уставшим.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "Говорит, что живёт здесь с 1991 года."
     },
+
 
     {
         name: "Игорь Курьер",
+        age: 24,
         type: "КУРЬЕР",
-        description: "Держит большую коробку.",
         image: "assets/igors/igor02.png",
         good: true,
-        inspect: "На коробке твоё имя."
+
+        description:
+            "Держит небольшую коробку.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Обычная",
+
+        lore:
+            "Ты ничего не заказывал. Но коробка действительно на твоё имя."
     },
+
 
     {
         name: "Игорь Врач",
+        age: 42,
         type: "ВРАЧ",
-        description: "Белый халат и медицинская сумка.",
         image: "assets/igors/igor03.png",
         good: true,
-        inspect: "Выглядит уставшим. Ничего странного."
+
+        description:
+            "Белый халат и медицинская сумка.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "Он говорит, что пришёл проверить соседа."
     },
+
 
     {
         name: "Игорь Сосед",
+        age: 35,
         type: "СОСЕД",
-        description: "Просит открыть дверь.",
         image: "assets/igors/igor04.png",
         good: true,
-        inspect: "Ты видел его раньше."
+
+        description:
+            "Обычный сосед с третьего этажа.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Обычная",
+
+        lore:
+            "Просит немного соли."
     },
+
 
     {
         name: "Игорь Рабочий",
+        age: 48,
         type: "РАБОЧИЙ",
-        description: "В руках инструменты.",
         image: "assets/igors/igor05.png",
         good: true,
-        inspect: "Обычный ремонтник."
+
+        description:
+            "Рабочая одежда, грязные руки.",
+
+        state:
+            "Уставший",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "В доме сегодня ремонт."
     },
+
 
     {
         name: "Игорь Полицейский",
+        age: 39,
         type: "ПОЛИЦИЯ",
-        description: "Показывает удостоверение.",
         image: "assets/igors/igor06.png",
         good: true,
-        inspect: "Удостоверение настоящее."
+
+        description:
+            "Показывает удостоверение.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Серьёзный",
+
+        lore:
+            "Спрашивает, не слышал ли ты странных звуков."
     },
+
 
     {
         name: "Игорь Пьяный",
+        age: 51,
         type: "ПЬЯНЫЙ",
-        description: "Еле стоит.",
         image: "assets/igors/igor07.png",
         good: true,
-        inspect: "Пьяный в мясо. Но человек."
+
+        description:
+            "Еле стоит на ногах.",
+
+        state:
+            "Пьяный",
+
+        reaction:
+            "Странная",
+
+        lore:
+            "Он перепутал квартиру."
     },
 
+
     {
-        name: "Игорь В Костюме",
-        type: "НЕИЗВЕСТНО",
-        description: "Просто стоит.",
+        name: "Игорь Отец",
+        age: 44,
+        type: "ОТЕЦ",
         image: "assets/igors/igor08.png",
-        good: false,
-        inspect: "Он не моргает."
+        good: true,
+
+        description:
+            "Мужчина с детским рюкзаком.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "Ищет сына."
     },
 
+
     {
-        name: "Игорь Ребёнок",
-        type: "РЕБЁНОК",
-        description: "Маленький мальчик.",
+        name: "Игорь Студент",
+        age: 21,
+        type: "СТУДЕНТ",
         image: "assets/igors/igor09.png",
         good: true,
-        inspect: "Он выглядит напуганным."
+
+        description:
+            "Молодой парень с рюкзаком.",
+
+        state:
+            "Уставший",
+
+        reaction:
+            "Обычная",
+
+        lore:
+            "Похоже, он просто ошибся этажом."
     },
 
-    {
-        name: "Игорь Женщина",
-        type: "ЖЕНЩИНА",
-        description: "Держит пакет продуктов.",
-        image: "assets/igors/igor10.png",
-        good: true,
-        inspect: "Похоже, она действительно соседка."
-    },
-
-    {
-        name: "Игорь Без Лица",
-        type: "НЕЧТО",
-        description: "На лице ничего нет.",
-        image: "assets/igors/igor11.png",
-        good: false,
-        inspect: "Ты смотришь на него. Он смотрит обратно."
-    },
-
-    {
-        name: "Игорь Высокий",
-        type: "НЕИЗВЕСТНО",
-        description: "Слишком высокий.",
-        image: "assets/igors/igor12.png",
-        good: false,
-        inspect: "Его голова выше дверного глазка."
-    },
-
-    {
-        name: "Игорь Улыбка",
-        type: "НЕИЗВЕСТНО",
-        description: "Улыбается.",
-        image: "assets/igors/igor13.png",
-        good: false,
-        inspect: "Улыбка не меняется."
-    },
-
-    {
-        name: "Игорь В Маске",
-        type: "НЕИЗВЕСТНО",
-        description: "Белая маска.",
-        image: "assets/igors/igor14.png",
-        good: false,
-        inspect: "Под маской ничего не видно."
-    },
-
-    {
-        name: "Игорь Мёртвый",
-        type: "МЁРТВЫЙ",
-        description: "Похож на старую фотографию.",
-        image: "assets/igors/igor15.png",
-        good: false,
-        inspect: "Он не дышит."
-    },
-
-    {
-        name: "Игорь Мокрый",
-        type: "НЕИЗВЕСТНО",
-        description: "Весь мокрый.",
-        image: "assets/igors/igor16.png",
-        good: false,
-        inspect: "Под дверью появляется вода."
-    },
-
-    {
-        name: "Игорь Бледный",
-        type: "ЧЕЛОВЕК",
-        description: "Очень бледный парень.",
-        image: "assets/igors/igor17.png",
-        good: true,
-        inspect: "Выглядит больным."
-    },
-
-    {
-        name: "Игорь Доктор",
-        type: "ВРАЧ",
-        description: "Говорит, что пришёл проверить тебя.",
-        image: "assets/igors/igor18.png",
-        good: true,
-        inspect: "Он нервничает."
-    },
-
-    {
-        name: "Игорь Пустой",
-        type: "НЕИЗВЕСТНО",
-        description: "Просто стоит у двери.",
-        image: "assets/igors/igor19.png",
-        good: false,
-        inspect: "Он смотрит прямо в глазок."
-    },
-
-    {
-        name: "Игорь Смешной",
-        type: "СОСЕД",
-        description: "Почему-то смеётся.",
-        image: "assets/igors/igor20.png",
-        good: true,
-        inspect: "Да, он просто странный."
-    },
-
-    {
-        name: "Игорь Старший",
-        type: "СОСЕД",
-        description: "Говорит, что забыл ключ.",
-        image: "assets/igors/igor21.png",
-        good: true,
-        inspect: "Нормальный человек."
-    },
-
-    {
-        name: "Игорь Ночной",
-        type: "НЕИЗВЕСТНО",
-        description: "Пришёл слишком поздно.",
-        image: "assets/igors/igor22.png",
-        good: false,
-        inspect: "За ним нет тени."
-    },
-
-    {
-        name: "Игорь С Другой Стороны",
-        type: "НЕИЗВЕСТНО",
-        description: "Стоит неподвижно.",
-        image: "assets/igors/igor23.png",
-        good: false,
-        inspect: "Ты уверен, что он стоит снаружи?"
-    },
 
     {
         name: "Игорь Дед",
-        type: "СОСЕД",
-        description: "Просит воды.",
-        image: "assets/igors/igor24.png",
+        age: 82,
+        type: "НЕИЗВЕСТНО",
+        image: "assets/igors/igor10.png",
         good: true,
-        inspect: "Обычный дед."
+
+        description:
+            "Очень старый человек.",
+
+        state:
+            "Слабый",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "Называет тебя чужим именем."
     },
+
+
+    {
+        name: "Игорь В Костюме",
+        age: 45,
+        type: "НЕИЗВЕСТНО",
+        image: "assets/igors/igor11.png",
+        good: false,
+
+        description:
+            "Чёрный костюм. Не двигается.",
+
+        state:
+            "Непонятное",
+
+        reaction:
+            "Не моргает",
+
+        lore:
+            "Стоит у двери уже несколько минут."
+    },
+
+
+    {
+        name: "Игорь Улыбка",
+        age: 40,
+        type: "НЕИЗВЕСТНО",
+        image: "assets/igors/igor12.png",
+        good: false,
+
+        description:
+            "Улыбается слишком широко.",
+
+        state:
+            "Странное",
+
+        reaction:
+            "Улыбается",
+
+        lore:
+            "Ты не видел его раньше."
+    },
+
+
+    {
+        name: "Игорь Без Лица",
+        age: "?",
+        type: "НЕЧТО",
+        image: "assets/igors/igor13.png",
+        good: false,
+
+        description:
+            "На месте лица ничего нет.",
+
+        state:
+            "Невозможно",
+
+        reaction:
+            "Неизвестно",
+
+        lore:
+            "Он смотрит прямо в глазок."
+    },
+
+
+    {
+        name: "Игорь Высокий",
+        age: "?",
+        type: "СУЩНОСТЬ",
+        image: "assets/igors/igor14.png",
+        good: false,
+
+        description:
+            "Слишком высокий для этого подъезда.",
+
+        state:
+            "Странное",
+
+        reaction:
+            "Не двигается",
+
+        lore:
+            "Его голова почти касается потолка."
+    },
+
+
+    {
+        name: "Игорь Неправильный",
+        age: 33,
+        type: "ОШИБКА",
+        image: "assets/igors/igor15.png",
+        good: false,
+
+        description:
+            "Выглядит почти нормально.",
+
+        state:
+            "Непонятное",
+
+        reaction:
+            "Дёрганая",
+
+        lore:
+            "Что-то в нём неправильно."
+    },
+
+
+    {
+        name: "Игорь Мёртвый",
+        age: 71,
+        type: "МЁРТВЫЙ",
+        image: "assets/igors/igor16.png",
+        good: false,
+
+        description:
+            "Выглядит как человек из старой фотографии.",
+
+        state:
+            "Мёртв",
+
+        reaction:
+            "Нет",
+
+        lore:
+            "Такой человек умер десять лет назад."
+    },
+
+
+    {
+        name: "Игорь В Маске",
+        age: "?",
+        type: "НЕИЗВЕСТНО",
+        image: "assets/igors/igor17.png",
+        good: false,
+
+        description:
+            "Белая маска. Чёрная одежда.",
+
+        state:
+            "Неизвестно",
+
+        reaction:
+            "Неизвестная",
+
+        lore:
+            "На вопрос «кто вы?» он молчит."
+    },
+
+
+    {
+        name: "Игорь Мокрый",
+        age: 31,
+        type: "ЧЕЛОВЕК",
+        image: "assets/igors/igor18.png",
+        good: false,
+
+        description:
+            "Полностью мокрый, хотя на улице сухо.",
+
+        state:
+            "Странное",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "С его одежды капает вода."
+    },
+
+
+    {
+        name: "Игорь Чёрный",
+        age: "?",
+        type: "НЕИЗВЕСТНО",
+        image: "assets/igors/igor19.png",
+        good: false,
+
+        description:
+            "Слишком тёмная одежда. Почти ничего не видно.",
+
+        state:
+            "Неизвестно",
+
+        reaction:
+            "Не двигается",
+
+        lore:
+            "Он стоит там, где свет не должен пропадать."
+    },
+
+
+    {
+        name: "Игорь Ребёнок",
+        age: 9,
+        type: "РЕБЁНОК",
+        image: "assets/igors/igor20.png",
+        good: true,
+
+        description:
+            "Маленький мальчик с игрушкой.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Испуганный",
+
+        lore:
+            "Просит позвать маму."
+    },
+
+
+    {
+        name: "Игорь Старый 2",
+        age: 73,
+        type: "СОСЕД",
+        image: "assets/igors/igor21.png",
+        good: true,
+
+        description:
+            "Похож на Игоря Старого.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Спокойный",
+
+        lore:
+            "Утверждает, что вы знакомы."
+    },
+
+
+    {
+        name: "Игорь Слишком Близко",
+        age: 29,
+        type: "ЧЕЛОВЕК",
+        image: "assets/igors/igor22.png",
+        good: false,
+
+        description:
+            "Стоит прямо перед глазком.",
+
+        state:
+            "Странное",
+
+        reaction:
+            "Смотрит",
+
+        lore:
+            "Он знает, где находится глазок."
+    },
+
+
+    {
+        name: "Игорь Молчун",
+        age: 36,
+        type: "ЧЕЛОВЕК",
+        image: "assets/igors/igor23.png",
+        good: true,
+
+        description:
+            "Ничего не говорит.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Спокойная",
+
+        lore:
+            "Показывает записку с адресом."
+    },
+
 
     {
         name: "Игорь Почтальон",
+        age: 55,
         type: "ПОЧТА",
-        description: "Принёс письмо.",
-        image: "assets/igors/igor25.png",
+        image: "assets/igors/igor24.png",
         good: true,
-        inspect: "Письмо настоящее."
+
+        description:
+            "Держит несколько конвертов.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Обычная",
+
+        lore:
+            "Один конверт адресован тебе."
     },
 
+
     {
-        name: "Игорь В Чёрном",
-        type: "НЕИЗВЕСТНО",
-        description: "Чёрная одежда.",
-        image: "assets/igors/igor26.png",
+        name: "Игорь Сломанный",
+        age: "?",
+        type: "СУЩНОСТЬ",
+        image: "assets/igors/igor25.png",
         good: false,
-        inspect: "У него слишком длинные пальцы."
+
+        description:
+            "Его тело выглядит неправильным.",
+
+        state:
+            "Невозможно",
+
+        reaction:
+            "Дёрганая",
+
+        lore:
+            "Он пытается повторять движения человека."
     },
 
+
     {
-        name: "Игорь Тихий",
-        type: "НЕИЗВЕСТНО",
-        description: "Не говорит ни слова.",
+        name: "Игорь Больной",
+        age: 61,
+        type: "ЧЕЛОВЕК",
+        image: "assets/igors/igor26.png",
+        good: true,
+
+        description:
+            "Выглядит очень плохо.",
+
+        state:
+            "Больной",
+
+        reaction:
+            "Слабая",
+
+        lore:
+            "Просит вызвать скорую."
+    },
+
+
+    {
+        name: "Игорь Пустой",
+        age: "?",
+        type: "НЕЧТО",
         image: "assets/igors/igor27.png",
         good: false,
-        inspect: "Он шепчет твоё имя."
+
+        description:
+            "Выглядит как человек, но слишком пустой.",
+
+        state:
+            "Неизвестно",
+
+        reaction:
+            "Неизвестно",
+
+        lore:
+            "Он не отражается в металлической двери."
     },
 
+
     {
-        name: "Игорь Нормальный",
-        type: "ЧЕЛОВЕК",
-        description: "Выглядит абсолютно обычно.",
+        name: "Игорь Друг",
+        age: 28,
+        type: "ЗНАКОМЫЙ",
         image: "assets/igors/igor28.png",
         good: true,
-        inspect: "Ничего подозрительного."
+
+        description:
+            "Говорит, что знает тебя.",
+
+        state:
+            "Нормальный",
+
+        reaction:
+            "Дружелюбный",
+
+        lore:
+            "Ты почему-то действительно узнаёшь его."
     },
 
+
     {
-        name: "Игорь Странный",
+        name: "Игорь Ночной",
+        age: "?",
         type: "НЕИЗВЕСТНО",
-        description: "Что-то с ним не так.",
         image: "assets/igors/igor29.png",
         good: false,
-        inspect: "Его глаза смотрят не туда."
+
+        description:
+            "Пришёл глубокой ночью.",
+
+        state:
+            "Странное",
+
+        reaction:
+            "Неизвестная",
+
+        lore:
+            "Он говорит, что уже был здесь вчера."
     },
+
 
     {
         name: "Игорь Последний",
+        age: "?",
         type: "???",
-        description: "Он знает, что ты смотришь.",
         image: "assets/igors/igor30.png",
         good: false,
-        inspect: "Он улыбается прямо в глазок."
+
+        description:
+            "Ты не уверен, что это человек.",
+
+        state:
+            "???",
+
+        reaction:
+            "???",
+
+        lore:
+            "На вопрос «что тебе нужно?» он отвечает: «ты сам позвонил»."
     }
 
 ];
 
 
-/* ==========================================
-   GAME STATE
-========================================== */
-
-let currentIgor = null;
-
-let currentIndex = 0;
-
-let gameStarted = false;
-
-
-/* ==========================================
+/* =========================================================
    RANDOM IGOR
-========================================== */
+========================================================= */
 
-function chooseIgor() {
+function getRandomIgor() {
 
-    if (currentIndex >= 30) {
+    const index =
+        Math.floor(
+            Math.random() * igors.length
+        );
 
-        endGame();
-
-        return;
-
-    }
-
-    currentIgor =
-        igors[currentIndex];
-
-    currentIndex++;
-
-    showIgor();
+    return igors[index];
 
 }
 
 
-/* ==========================================
+/* =========================================================
+   TIME
+========================================================= */
+
+function updateTime() {
+
+    eventTime.textContent =
+        `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
+
+}
+
+
+function advanceTime() {
+
+    minute +=
+        Math.floor(
+            Math.random() * 4
+        ) + 1;
+
+    if (minute >= 60) {
+
+        minute -= 60;
+
+        hour++;
+
+    }
+
+    if (hour >= 24)
+        hour = 0;
+
+}
+
+
+/* =========================================================
+   BELL
+========================================================= */
+
+bellButton.addEventListener(
+    "click",
+    () => {
+
+        if (gameOver)
+            return;
+
+        if (someoneAtDoor)
+            return;
+
+        someoneAtDoor = true;
+
+        currentIgor =
+            getRandomIgor();
+
+        advanceTime();
+
+        updateTime();
+
+        status.textContent =
+            "Кто-то у двери.";
+
+        eventTitle.textContent =
+            "Кто-то стучит.";
+
+        eventDescription.textContent =
+            "За дверью кто-то стоит.";
+
+        eventPanel.classList.remove(
+            "hidden"
+        );
+
+    }
+);
+
+
+/* =========================================================
+   LOOK
+========================================================= */
+
+lookButton.addEventListener(
+    "click",
+    () => {
+
+        if (!currentIgor)
+            return;
+
+        showIgor();
+
+    }
+);
+
+
+/* =========================================================
    SHOW IGOR
-========================================== */
+========================================================= */
 
 function showIgor() {
 
+    const igor =
+        currentIgor;
+
     igorImage.src =
-        currentIgor.image;
+        igor.image;
 
     igorName.textContent =
-        currentIgor.name;
+        igor.name;
 
     igorType.textContent =
-        currentIgor.type;
+        igor.type;
 
     igorDescription.textContent =
-        currentIgor.description;
+        igor.description;
 
-    inspectText.textContent =
-        "Посмотри внимательнее.";
+    igorAge.textContent =
+        igor.age;
 
-    igorCounter.textContent =
-        `${currentIndex} / 30`;
+    igorState.textContent =
+        igor.state;
 
-    visitorPanel.classList.remove(
+    igorReaction.textContent =
+        igor.reaction;
+
+    igorLore.textContent =
+        igor.lore;
+
+    eventPanel.classList.add(
         "hidden"
     );
 
-    roomText.textContent =
-        "Кто-то у двери.";
+    inspect.classList.remove(
+        "hidden"
+    );
 
 }
 
 
-/* ==========================================
-   BELL
-========================================== */
+/* =========================================================
+   CLOSE INSPECTION
+========================================================= */
 
-bellButton.onclick = () => {
+closeInspect.addEventListener(
+    "click",
+    () => {
 
-    if (!gameStarted) {
+        inspect.classList.add(
+            "hidden"
+        );
 
-        gameStarted = true;
+        eventPanel.classList.remove(
+            "hidden"
+        );
 
     }
-
-    if (currentIgor)
-        return;
-
-    chooseIgor();
-
-};
+);
 
 
-/* ==========================================
-   INSPECT
-========================================== */
+/* =========================================================
+   IGNORE
+========================================================= */
 
-inspectButton.onclick = () => {
+ignoreButton.addEventListener(
+    "click",
+    () => {
 
-    if (!currentIgor)
-        return;
+        leaveVisitor(
+            "Ты решил не открывать."
+        );
 
-    inspectText.textContent =
-        currentIgor.inspect;
-
-};
+    }
+);
 
 
-/* ==========================================
+/* =========================================================
+   REJECT
+========================================================= */
+
+rejectButton.addEventListener(
+    "click",
+    () => {
+
+        if (!currentIgor)
+            return;
+
+        const igor =
+            currentIgor;
+
+        if (!igor.good) {
+
+            leaveVisitor(
+                `${igor.name} медленно отошёл от двери.`
+            );
+
+            return;
+
+        }
+
+        leaveVisitor(
+            `${igor.name} ушёл.\n\nНаверное, зря ты его послал.`
+        );
+
+    }
+);
+
+
+/* =========================================================
    OPEN
-========================================== */
+========================================================= */
 
-openButton.onclick = () => {
+openButton.addEventListener(
+    "click",
+    () => {
 
-    if (!currentIgor)
-        return;
+        if (!currentIgor)
+            return;
 
-    if (currentIgor.good) {
+        const igor =
+            currentIgor;
 
-        closeVisitor();
+        if (igor.good) {
 
-        showMessage(
-            `${currentIgor.name} вошёл.\n\n` +
-            `Через пару секунд он ушёл.`
+            leaveVisitor(
+                `${igor.name} вошёл.\n\nОн поблагодарил тебя.`
+            );
+
+            return;
+
+        }
+
+        /*
+            BAD VISITOR
+        */
+
+        gameOver = true;
+
+        inspect.classList.add(
+            "hidden"
         );
 
-    } else {
+        status.textContent =
+            "Дверь открыта.";
 
-        closeVisitor();
+        setTimeout(() => {
 
-        showMessage(
-            "Дверь открылась.\n\n" +
-            "Он вошёл.\n\n" +
-            "Тебе стоило посмотреть внимательнее."
-        );
+            showMessage(
+                "Ты открыл дверь.",
+                `${igor.name} вошёл.\n\n\nТеперь он внутри.`
+            );
+
+        }, 600);
 
     }
-
-};
-
-
-/* ==========================================
-   LEAVE
-========================================== */
-
-leaveButton.onclick = () => {
-
-    if (!currentIgor)
-        return;
-
-    const name =
-        currentIgor.name;
-
-    closeVisitor();
-
-    showMessage(
-        `${name}\n\n` +
-        `ушёл нахуй.`
-    );
-
-};
+);
 
 
-/* ==========================================
-   CLOSE VISITOR
-========================================== */
+/* =========================================================
+   VISITOR LEAVES
+========================================================= */
 
-function closeVisitor() {
+function leaveVisitor(text) {
 
-    visitorPanel.classList.add(
-        "hidden"
-    );
-
-    roomText.textContent =
-        "Тишина...";
+    someoneAtDoor = false;
 
     currentIgor = null;
 
+    inspect.classList.add(
+        "hidden"
+    );
+
+    eventPanel.classList.add(
+        "hidden"
+    );
+
+    status.textContent =
+        "Снова тихо.";
+
+    showMessage(
+        "Тишина.",
+        text
+    );
+
 }
 
 
-/* ==========================================
+/* =========================================================
    MESSAGE
-========================================== */
+========================================================= */
 
-function showMessage(text) {
+function showMessage(
+    title,
+    text
+) {
+
+    messageTitle.textContent =
+        title;
 
     messageText.textContent =
         text;
@@ -532,34 +1050,85 @@ function showMessage(text) {
         "hidden"
     );
 
-    setTimeout(() => {
+}
+
+
+/* =========================================================
+   CONTINUE
+========================================================= */
+
+continueButton.addEventListener(
+    "click",
+    () => {
 
         message.classList.add(
             "hidden"
         );
 
-    }, 2200);
+        if (gameOver) {
 
-}
+            gameOver = false;
+
+            status.textContent =
+                "В квартире тихо.";
+
+        }
+
+    }
+);
 
 
-/* ==========================================
-   END
-========================================== */
+/* =========================================================
+   KEYBOARD
+========================================================= */
 
-function endGame() {
+document.addEventListener(
+    "keydown",
+    event => {
 
-    gameStarted = false;
+        if (
+            event.key.toLowerCase() === "e"
+        ) {
 
-    roomText.textContent =
-        "Все 30 Игорей пришли.";
+            if (
+                someoneAtDoor &&
+                !inspect.classList.contains(
+                    "hidden"
+                )
+            ) {
 
-    showMessage(
-        "30 ИГОРЕЙ\n\n" +
-        "Ночь закончена.\n\n" +
-        "Или нет."
-    );
+                openButton.click();
 
-    currentIndex = 0;
+            }
 
-}
+        }
+
+        if (
+            event.key.toLowerCase() === "q"
+        ) {
+
+            if (
+                someoneAtDoor &&
+                !inspect.classList.contains(
+                    "hidden"
+                )
+            ) {
+
+                rejectButton.click();
+
+            }
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   START
+========================================================= */
+
+updateTime();
+
+status.textContent =
+    "В квартире тихо.";
